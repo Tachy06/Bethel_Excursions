@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+{% load pwa %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}La web oficial de la mecánica Wesaca{% endblock %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% progressive_web_app_meta %}
+    <title>Login Bethel Excursions</title>
+</head>
+<body style="background-color: rgba(0,0,0,0.5);">
+    <main class="login">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 0px;">
+                    <p style="font-size: 17px; font-weight: bold;">{{ message }}</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="container">
+            <div class="fondo" style="border-radius: 10px;">
+                <div class="title">
+                    <h4 style="margin: 10px 0px;">Iniciar Sesión en Bethel Excursions</h4>
+                </div>
+                <form action="" method="POST"> {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuario</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-black">Iniciar Sesión</button>
+                </form>
+                <p>No tienes cuenta? <a href="/register/" style="color: blue; text-decoration: none;">Registrate</a></p>
+            </div>
+        </div>
+    </main>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</body>
+</html>

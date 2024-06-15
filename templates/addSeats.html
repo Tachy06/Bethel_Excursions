@@ -1,0 +1,28 @@
+{% extends 'PanelAdmin.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>Add seats</title> {% endblock %}
+{% block content %}
+<section class="bus">
+    <section class="back">
+        <div class="container">
+            <a href="{% url 'ViewBus' bus.id %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+    <div class="container">
+        <h1 style="color: rgb(0, 0, 0); margin-top: 20px;">Add seats</h1>
+        <form action="{% url 'AddSeats' bus.id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="seat">Seat number</label>
+                <input type="number" id="seat" name="seat" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-black">Add</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'PanelAdmin.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>Crear admin</title> {% endblock %}
+{% block content %}
+{% if request.user.is_superuser %}
+    <section class="back">
+        <div class="container">
+            <a href="{% url 'Admin' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+    <section class="createAdmin">
+        <div class="container">
+            <h1 class="mt-3">Crear admin</h1>
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="first_name">Nombre</label>
+                            <input type="text" id="first_name" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="last_name">Apellidos</label>
+                            <input type="text" id="last_name" name="last_name" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="username">Nombre de usuario</label>
+                            <input type="text" id="username" name="username" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password">Contraseña</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="button-centered d-flex justify-content-center align-items-center text-center">
+                            <button type="submit" class="btn btn-black px-5">Crear Admin</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+{% endblock %}

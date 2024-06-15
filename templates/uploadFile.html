@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>Upload of voucher</title> {% endblock %}
+{% block content %}
+<main class="cloud">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 0px;">
+                <p style="font-size: 17px; font-weight: bold;">{{ message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container">
+        <div class="fondo">
+            <h1 style="color: rgb(0, 0, 0);">Subir comprobante</h1>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="voucher" class="form-label">Comprobante</label>
+                    <input type="file" name="voucher" id="voucher" class="form-control" required accept="image/png, image/jpeg, image/webp">
+                </div>
+                <button type="submit" class="btn btn-black">Subir</button>
+            </form>
+        </div>
+</main>
+{% endblock %}

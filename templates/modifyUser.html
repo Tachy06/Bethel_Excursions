@@ -1,0 +1,286 @@
+{% extends 'PanelAdmin.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>View rooms</title> {% endblock %}
+{% block content %}
+    <section class="back">
+        <div class="container">
+            <a href="/admin666/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 0px;">
+                <p style="font-size: 17px; font-weight: bold;">{{ message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if user.is_superuser %}
+        <section class="modifyUser">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mt-2">
+                            <div class="card-header">
+                                <h4>Modify User</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Usuario</label>
+                                        <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nombre</label>
+                                        <input type="text" id="name" name="name" class="form-control" value="{{ user.first_name }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="last_name" class="form-label">Apellidos</label>
+                                        <input type="text" id="last_name" name="last_name" class="form-control" value="{{ user.last_name }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning w-100">Modificar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <section class="modifyUser">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mt-2">
+                            <div class="card-header">
+                                <h4>Modify User</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Usuario</label>
+                                        <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nombre</label>
+                                        <input type="text" id="name" name="name" class="form-control" value="{{ user.first_name }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="last_name" class="form-label">Apellidos</label>
+                                        <input type="text" id="last_name" name="last_name" class="form-control" value="{{ user.last_name }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="people" class="form-label">Personas por habitación</label>
+                                        <select name="people" id="people" class="form-control" required>
+                                            <option value="0">Seleccionar...</option>
+                                            <option value="1">1 person</option>
+                                            <option value="2">2 people</option>
+                                            <option value="3">3 people</option>
+                                            <option value="4">4 people</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group person-field" id="person-field-1">
+                                        <label for="person1"><span style="color: red;">**</span>Nombre de la persona 1</label>
+                                        <input type="text" id="person1" name="person1" class="form-control" value="{{ companions.person1 }}">
+                                    </div>
+                                    <div class="form-group person-field" id="person-field-2">
+                                        <label for="person2"><span style="color: red;">**</span>Nombre de la persona 2</label>
+                                        <input type="text" id="person2" name="person2" class="form-control" value="{{ companions.person2 }}">
+                                    </div>
+                                    <div class="form-group person-field" id="person-field-3">
+                                        <label for="person3"><span style="color: red;">**</span>Nombre de la persona 3</label>
+                                        <input type="text" id="person3" name="person3" class="form-control" value="{{ companions.person3 }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="rooms" class="form-label">Habitaciones a reservar</label>
+                                        <select name="rooms" id="rooms" class="form-control" required>
+                                            <option value="0">Seleccionar...</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="number_room" class="form-label">Número de habitación a reservar</label>
+                                        <select name="number_room" id="number_room" class="form-control" required>
+                                            <option value="0">Seleccionar...</option>
+                                            {% for room in rooms %}
+                                                <option value="{{ room.id }}">{{ room.number }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vip">¿Habitación exclusiva?</label>
+                                        <div class="d-flex flex-row justify-content-center">
+                                                {% if reservation.exclusive %}
+                                                    <div class="form-check">
+                                                        <input class="radio_vip" type="radio" name="RadioVip" id="flexRadioYes" value="Yes" checked style="width: 40px; height: 20px; margin: 0px; padding: 0px;">
+                                                        <label class="form-check-label" for="flexRadioYes">
+                                                            Sí
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="radio_sex" type="radio" name="RadioVip" id="flexRadioNo" value="No" style="width: 40px; height: 20px; margin: 0px; padding: 0px;">
+                                                        <label class="form-check-label" for="flexRadioNo" style="margin-right: 10px;">
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="form-check">
+                                                        <input class="radio_vip" type="radio" name="RadioVip" id="flexRadioYes" value="Yes" style="width: 40px; height: 20px; margin: 0px; padding: 0px;">
+                                                        <label class="form-check-label" for="flexRadioYes">
+                                                            Sí
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="radio_sex" type="radio" name="RadioVip" id="flexRadioNo" value="No" checked style="width: 40px; height: 20px; margin: 0px; padding: 0px;">
+                                                        <label class="form-check-label" for="flexRadioNo" style="margin-right: 10px;">
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                {% endif %}
+                                        </div>
+                                    </div>
+                                    {% for bus_name, asientos in asientos.items %}
+                                        <div class="mb-3">
+                                            <label class="form-label">Asientos del {{ bus_name }}</label>
+                                            <div class="asientos">
+                                                {% for asiento in asientos %}
+                                                    {% if asiento.estado == 'disponible' %}
+                                                        <li style="list-style: none; padding: 0px 5px;">{{ asiento.numero }} <input type="checkbox" name="seat_numbers" value="{{ asiento.bus.id }}_{{ asiento.numero }}"></li>
+                                                    {% else %}
+                                                        <li style="list-style: none; padding: 0px 5px;">{{ asiento.numero }} <span style="font-weight: bold;">Busy</span> <input type="checkbox" style="display: none;" name="seat_numbers"></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="mb-3">
+                                        <label for="dates" class="form-label">Fechas</label>
+                                        <select class="form-control" name="dates" id="dates" required>
+                                            <option value="0">Seleccionar...</option>
+                                            {% for date in dates %}
+                                                <option value="{{ date.id }}">{{ date.first_date }} al {{ date.second_date }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning w-100">Modificar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <script>
+        function dividirInputs() {
+            var divs = document.querySelectorAll('.asientos');
+            
+            divs.forEach(function(div) {
+                var inputs = div.querySelectorAll('input[type="checkbox"]');
+                var lis = div.querySelectorAll('li');
+                if (inputs.length > 2) {
+                    var nuevosAsientos = document.createElement('div');
+                    nuevosAsientos.classList.add('asiento');
+                    div.parentNode.insertBefore(nuevosAsientos, div.nextSibling);
+                    
+                    var contador = 0;
+                    var nuevoContenedor = null;
+                    
+                    inputs.forEach(function(input, index) {
+                        if (contador === 0) {
+                            nuevoContenedor = document.createElement('div');
+                            nuevoContenedor.classList.add('asientos');
+                            nuevosAsientos.appendChild(nuevoContenedor);
+                        }
+                        nuevoContenedor.appendChild(lis[index]);
+                        nuevoContenedor.appendChild(input);
+                        
+                        contador++;
+                        
+                        if (contador === 2 || index === inputs.length - 1) {
+                            contador = 0;
+                        }
+                    });
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', dividirInputs);
+        document.addEventListener('DOMContentLoaded', function() {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var maxAsientos = 4;
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                    if (selectedCheckboxes.length > maxAsientos) {
+                        this.checked = false;
+                        alert('Solo puedes seleccionar un máximo de ' + maxAsientos + ' asientos.');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('people').addEventListener('change', function() {
+            updateFields(parseInt(this.value));
+        });
+
+        function updateFields(numPeople) {
+            const fields = [
+                document.getElementById('person-field-1'),
+                document.getElementById('person-field-2'),
+                document.getElementById('person-field-3')
+            ];
+            const inputs = [
+                document.getElementById('person1'),
+                document.getElementById('person2'),
+                document.getElementById('person3')
+            ];
+
+            // Reset all fields to not required and hide them initially
+            fields.forEach(field => {
+                field.style.display = 'none';
+            });
+            inputs.forEach(input => {
+                input.required = false;
+            });
+
+            // Show and set required based on the number of people
+            if (numPeople > 1) {
+                fields[0].style.display = 'block';
+                inputs[0].required = true;
+            }
+            if (numPeople > 2) {
+                fields[1].style.display = 'block';
+                inputs[1].required = true;
+            }
+            if (numPeople > 3) {
+                fields[2].style.display = 'block';
+                inputs[2].required = true;
+            }
+        }
+
+        // Set initial state based on the value of the dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const initialNumPeople = parseInt(document.getElementById('people').value);
+            updateFields(initialNumPeople);
+        });
+    </script>
+{% endblock %}

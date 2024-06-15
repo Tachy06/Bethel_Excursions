@@ -1,0 +1,44 @@
+{% extends 'PanelAdmin.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>Modify dates</title> {% endblock %}
+{% block content %}
+    {% if request.user.is_superuser %}
+        <section class="back">
+            <div class="container">
+                <a href="{% url 'Admin' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+        <div class="d-flex justify-content-center align-items-center text-center flex-column">
+            <h1 class="mt-3 mb-3">Modificar fechas</h1>
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label card-text">Fecha de inicio</label>
+                            <input type="date" name="start_date" id="start_date" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label card-text">Fecha de finalización</label>
+                            <input type="date" name="end_date" id="end_date" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="change" class="form-label">Cambiar por la fecha</label>
+                            <select name="change" id="change" class="form-control" required>
+                                <option value="0">Select...</option>
+                                {% for date in dates %}
+                                    <option value="{{ date.id }}">{{ date.first_date }} al {{ date.second_date }}</option>
+                                {% endfor %}
+                            </select>
+                        <button type="submit" class="btn btn-success mt-3">Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

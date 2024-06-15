@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>Profile</title> {% endblock %}
+{% block content %}
+<section class="profile">
+    <div class="container">
+        <h1>Perfil</h1>
+        {% if request.user.is_superuser %}
+        <div class="card" style="width: 22rem; height: 15rem; box-shadow: 0px 0px 5px black;">
+            <div class="card-body" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                <p class="card-text">Nombre: <span class="span-black">{{ user.first_name }}</span></p>
+                <p class="card-text">Apellidos: <span class="span-black">{{ user.last_name }}</span></p>
+                <p class="card-text">Usuario: <span class="span-black">{{ user.username }}</span></p>
+                <p class="card-text">Email: <span class="span-black">{{ user.email }}</span></p>
+            </div>
+        </div>
+        {% else %}
+            <div class="card" style="width: 22rem; height: 25rem; box-shadow: 0px 0px 5px black;">
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                    <p class="card-text">Nombre: <span class="span-black">{{ user.first_name }}</span></p>
+                    <p class="card-text">Apellidos: <span class="span-black">{{ user.last_name }}</span></p>
+                    <p class="card-text">Usuario: <span class="span-black">{{ user.username }}</span></p>
+                    <p class="card-text">Email: <span class="span-black">{{ user.email }}</span></p>
+                    <p class="card-text">¿Cuantas personas van con usted incluyendolo?: <span class="span-black">{{ moreInformation.people }}</span></p>
+                    <p class="card-text">¿Cuantas habitaciones reservó?: <span class="span-black">{{ moreInformation.rooms }}</span></p>
+                    <p class="card-text">Asientos:
+                        {% for asiento in asientos %}
+                            <span class="span-black">{{ asiento.bus.nombre }} - Asiento {{ asiento.numero }}</span>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p class="card-text">Fecha del viaje: <span class="span-black">{{ moreInformation.date_of_travel.first_date }} al {{ moreInformation.date_of_travel.second_date }}</span></p>
+                    {% if not paid %}
+                    {% else %}
+                        <p>How much have you paid? <span class="span-black">${{paid.totalPaid}}</span></p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

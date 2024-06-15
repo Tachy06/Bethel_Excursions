@@ -1,0 +1,465 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100dvh;
+}
+
+.register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: auto;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.register .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.register .container .fondo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 0px 3px black;
+    background-color: rgb(247, 244, 244);
+    width: 380px;
+    height: auto;
+}
+
+.register .container .fondo .title{
+    display: flex;
+    justify-content: left;
+    align-items: start;
+    text-align: left;
+}
+
+.asientos{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.btn-black{
+    border-radius: 5px;
+    padding: 7px 20px;
+    background-color: black;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.btn-black:hover{
+    box-shadow: 0px 0px 7px white;
+    background-color: black;
+    color: white;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100dvh;
+}
+
+.login .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.login .container .fondo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 0px 3px black;
+    background-color: rgb(247, 244, 244);
+    width: 350px;
+}
+
+.nav-brand{
+    margin: 0px 5px;
+    margin-bottom: 4px;
+}
+
+.btn-mobile{
+    margin: 7px 5px;
+}
+
+.upload{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/upload.webp') center/cover no-repeat;
+    height: 40dvh;
+}
+
+.span-black{
+    font-weight: bold;
+}
+
+.profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 80dvh;
+}
+
+.profile .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.profile .container .wallpaper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0px 0px 6px black;
+    height: 400px;
+    width: 350px;
+    border-radius: 10px;
+}
+
+.cloud{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 90dvh;
+}
+
+.cloud .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cloud .container .fondo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 0px 3px black;
+    width: 330px;
+    height: 400px;
+}
+
+.view-payments{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 40dvh;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/payments.webp') center/cover no-repeat;
+}
+
+.view-payments .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.admin{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: auto;
+}
+
+.admin .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.admin .container .title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.admin .container .wallpaper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0px 0px 6px black;
+    height: 400px;
+    width: 350px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+#scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    font-size: 16px;
+    background-color: #797979;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease-out;
+}
+
+#scrollToTopBtn.show {
+    display: block;
+}
+
+#scrollToTopBtn:hover {
+    transform: translateY(-5px);
+}
+
+.payments{
+    height: auto;
+}
+
+.buttons-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.img-voucher{
+    width: 250px; 
+    height: 350px;
+}
+
+.all-information{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#expand-trigger {
+    display: none;
+}
+
+.p-voucher{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-size: 40px;
+    color: black;
+    margin: 50% 0px;
+}
+
+.info-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.info-row p{
+    margin: 10px;
+}
+
+.error{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100dvh;
+}
+
+.bus{
+    height: auto;
+}
+
+footer{
+    width: 100%;
+    height: auto;
+    color: rgb(0, 0, 0);
+    margin-top: 50px;
+}
+
+footer .group-1{
+    width: 100%;
+}
+
+footer .group-1 .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+footer .group-1 .container figure{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer .group-1 .container figure img{
+    margin-top: 20px;
+}
+
+.cover-price{
+    margin-top: 20px;
+}
+
+.contact{
+    margin-top: 20px;
+}
+
+.cover{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 90dvh;
+}
+
+.cover .container ol{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cover .container ol li{
+    margin: 20px;
+}
+
+.margin-celu{
+    margin: 10px 0px;
+}
+
+.login-margin{
+    margin-top: 200px;
+}
+@media only screen and (min-width: 768px) {
+    .register{
+        height: auto;
+    }
+
+    .register .container .fondo{
+        width: 600px;
+        margin: 20px 0px;
+    }
+
+    .login .container .fondo{
+        width: 600px;
+        height: 400px;
+    }
+
+    .upload{
+        height: 75dvh;
+    }
+    .view-payments{
+        height: 70dvh;
+    }
+
+    .all-information{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .information{
+        overflow: hidden;
+        position: relative;
+    }
+
+    .expandable-image {
+        transition: transform 0.3s ease;
+    }
+    
+    .expanded {
+        transform: scale(1.5);
+        width: 80%;
+        height: auto;
+        margin: 150px 0px;
+    }
+
+    .p-voucher{
+        display: flex;
+        font-size: 20px;
+        color: black;
+        margin: 0px;
+    }
+
+    .profile{
+        height: 80dvh;
+    }
+    
+
+    footer .group-1{
+        max-width: 1200px;
+        margin: auto;
+        display: grid;grid-template-columns: repeat(3, 1fr);
+        grid-gap: 50px;
+        padding: 40px 0px;
+    }
+
+    footer .group-1 .container figure img{
+        margin-top: 0px;
+    }
+
+    .cover-price{
+        margin-top: 0px;
+    }
+
+    .contact{
+        margin-top: 30px;
+    }
+
+    .card-pc{
+        width: 60%;
+    }
+
+    .login-margin{
+        margin-top: 100px;
+    }
+}

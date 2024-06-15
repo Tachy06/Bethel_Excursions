@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+{% load pwa %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}La web oficial de la mecánica Wesaca{% endblock %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% progressive_web_app_meta %}
+    {% block title %} <title>Bethel Excursions</title> {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a href="/" class="navbar-brand nav-brand"><img src="{% static 'images/logo.png' %}" alt="Logo" style="width: 60px; height: 60px; border-radius: 50px; margin-top: 0px;">Bethel Excursions</a>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler btn-mobile" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% if request.user.is_superuser %}
+                        <li class="nav-item">
+                            <a href="/admin666/" class="nav-link" style="margin: 5px 8px;">Administrador</a>
+                        </li>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <div class="dropdown" style="margin-top: 5px;">
+                            <div class="content">
+                                <button class="btn btn-black dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Ver perfil</button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding: 6px;">
+                                    <a href="{% url 'Profile' %}" class="dropdown-item">{{request.user}}</a>
+                                    <a href="{% url 'Logout' %}" class="dropdown-item">Cerrar Sesión</a>
+                                </ul>
+                            </div>
+                        </div>
+                    {% else %}
+                        <li class="nav-item">
+                            <button data-bs-toggle="modal" data-bs-target="#loginModal" class="nav-link" style="margin: 5px 8px;">Iniciar Sesión/Registrar</button>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% block content %} {% endblock %}
+    <footer style="box-shadow: 0px 0px 1px black; background-color: rgb(158, 158, 158); margin-top: 0px;">
+        <div class="group-1">
+            <div class="container">
+                <figure>
+                    <img src="{% static 'images/logo.png' %}" alt="logo" style="width: 120px; height: 120px; border-radius: 100px;">
+                </figure>
+            </div>
+            <div class="container">
+                <h2 class="cover-price">¿Que cubre lo que se paga?</h2>
+                <a href="{% url 'What_Price' %}" style="color: rgb(0, 89, 255); text-decoration: none; font-size: 20px;">Míralo aquí</a>
+            </div>
+            <div class="container">
+                <h2 class="contact">Contactanos</h2>
+                <a href="mailto:BethelExcursions@gmail.com" style="margin-bottom: 10px; text-decoration: none;">BethelExcursions@gmail.com</a>
+                <p>Con Wilbeth Chinchilla <a href="tel:+18173630668">817-363-0668</a></p>
+                <p>Con Verónica Chinchilla <a href="tel:+17023306776">702-330-6776</a></p>
+            </div>
+        </div>
+    </footer>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</body>
+</html>

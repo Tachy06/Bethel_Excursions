@@ -1,0 +1,63 @@
+{% extends 'PanelAdmin.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>View payments</title> {% endblock %}
+{% block content %}
+<section class="bus">
+    <section class="back">
+        <div class="container">
+            <a href="{% url 'Admin' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 0px;">
+                <p style="font-size: 17px; font-weight: bold;">{{ message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container">
+        <h1 style="color: rgb(0, 0, 0); margin-top: 20px;">Seats of {{bus.nombre}}</h1>
+        <div class="buttons-row" style="margin: 15px 0px;">
+            <a href="{% url 'AddSeats' bus.id %}" class="btn btn-outline-primary mx-1">Add Seat to {{bus.nombre}}</a>
+            <a href="" class="btn btn-outline-danger">Delete seats of {{bus.nombre}}</a>
+        </div>
+        {% for seat in seats %}
+            <div class="info-row" style="display: flex; justify-content: center;">
+                <p>Seat: <span style="font-weight: bold;">{{seat.numero}}</span></p>
+                {% if seat.estado == 'reservado' %}
+                    <p>State: <span style="font-weight: bold;">Reserved</span></p>
+                {% else %}
+                    <p>State: <span style="font-weight: bold;">Available</span></p>
+                {% endif %}
+                {% if seat.user == None %}
+                    <p>User: <span style="font-weight: bold;">No user</span></p>
+                    <form action="{% url 'DefineSeat' seat.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="row-table" style="display: flex; justify-content: center; flex-direction: row;">
+                            <select name="user" id="user" required class="form-control">
+                                <option value="0">Select user</option>
+                                {% for user in users %}
+                                    <option value="{{user.id}}">{{user.username}}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-success" style="margin-bottom: 10px; margin-left: 10px; margin-top: 3px;">Define</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <p>User: <span style="font-weight: bold;">{{seat.user}}</span></p>
+                    <form action="{% url 'makeAvailable' seat.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" style="margin-bottom: 10px;">Make Available</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

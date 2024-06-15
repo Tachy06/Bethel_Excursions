@@ -1,0 +1,54 @@
+{% extends 'PanelAdmin.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>Modify prices</title> {% endblock %}
+{% block content %}
+{% if request.user.is_superuser %}
+    <section class="back">
+        <div class="container">
+            <a href="{% url 'Admin' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+    <div class="d-flex justify-content-center align-items-center text-center flex-column">
+        <h1 class="mt-3">Modify prices</h1>
+        <div class="card mt-3 w-50" style="box-shadow: -1px 0px 5px black;">
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% for price in prices %}
+                        {% if price.people == 1 %}
+                            <div class="mb-3">
+                                <label for="price1" class="form-label card-text">Precio unitario</label>
+                                <input type="number" name="price1" id="price1" class="form-control" min="1" value="{{ price.price|floatformat:0 }}">
+                            </div>
+                        {% endif %}
+                        {% if price.people == 2 %}
+                            <div class="mb-3">
+                                <label for="price2" class="form-label card-text"> Precio para 2 personas</label>
+                                <input type="number" name="price2" id="price2" class="form-control" min="1" value="{{ price.price|floatformat:0 }}">
+                            </div>
+                        {% endif %}
+                        {% if price.people == 3 %}
+                            <div class="mb-3">
+                                <label for="price3" class="form-label card-text"> Precio para 3 personas</label>
+                                <input type="number" name="price3" id="price3" class="form-control" min="1" value="{{ price.price|floatformat:0 }}">
+                            </div>
+                        {% endif %}
+                        {% if price.people == 4 %}
+                            <div class="mb-3">
+                                <label for="price4" class="form-label card-text"> Precio para 4 personas</label>
+                                <input type="number" name="price4" id="price4" class="form-control" min="1" value="{{ price.price|floatformat:0 }}">
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <button type="submit" class="btn btn-success">Modificar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

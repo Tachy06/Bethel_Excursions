@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+{% load static %}
+{% load pwa %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}La web oficial de la mecánica Wesaca{% endblock %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% progressive_web_app_meta %}
+    <title>Register Bethel Excursions</title>
+</head>
+<body style="background-color: rgba(0,0,0,0.5);">
+    <main class="register">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 0px;">
+                    <p style="font-size: 17px; font-weight: bold;">{{ message }}</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="container">
+            <div class="card" style="width: 24rem; height: auto; box-shadow: -1px 1px 5px black;">
+                <div class="card-body">
+                    <div class="title">
+                        <h4 style="margin: 10px 0px;">Register Bethel Excursions</h4>
+                    </div>
+                    <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">Nombre</label>
+                            <input type="text" id="first_name" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="first_last_name" class="form-label">Primer apellido</label>
+                            <input type="text" id="first_last_name" name="first_last_name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="second_last_name" class="form-label">Segundo apellido</label>
+                            <input type="text" id="second_last_name" name="second_last_name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Usuario</label>
+                            <input type="text" id="username" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="people">¿Cuantas personas por habitación?</label>
+                            <select name="people" id="people" class="form-control" required>
+                                <option value="0">Seleccionar...</option>
+                                <option value="1">1 person</option>
+                                <option value="2">2 people</option>
+                                <option value="3">3 people</option>
+                                <option value="4">4 people</option>
+                            </select>
+                        </div>
+                        <div class="form-group person-field" id="person-field-1">
+                            <label for="person1"><span style="color: red;">**</span>Nombre de la persona 1</label>
+                            <input type="text" id="person1" name="person1" class="form-control">
+                        </div>
+                        <div class="form-group person-field" id="person-field-2">
+                            <label for="person2"><span style="color: red;">**</span>Nombre de la persona 2</label>
+                            <input type="text" id="person2" name="person2" class="form-control">
+                        </div>
+                        <div class="form-group person-field" id="person-field-3">
+                            <label for="person3"><span style="color: red;">**</span>Nombre de la persona 3</label>
+                            <input type="text" id="person3" name="person3" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="rooms" class="form-label">Habitaciones a reservar</label>
+                            <select name="rooms" id="rooms" class="form-control" required>
+                                <option value="0">Seleccionar...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vip">¿Habitación exclusiva?</label>
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="form-check">
+                                    <input class="radio_vip" type="radio" name="RadioVip" id="flexRadioYes" value="Yes" style="width: 40px; height: 20px; margin: 0px; padding: 0px;">
+                                    <label class="form-check-label" for="flexRadioYes">
+                                        Sí
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="radio_sex" type="radio" name="RadioVip" id="flexRadioNo" value="No" checked style="width: 40px; height: 20px; margin: 0px; padding: 0px;">
+                                    <label class="form-check-label" for="flexRadioNo" style="margin-right: 10px;">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="number_room" class="form-label">Número de habitación a reservar</label>
+                            <select name="number_room" id="number_room" class="form-control" required>
+                                <option value="0">Seleccionar...</option>
+                                {% for room in rooms %}
+                                    <option value="{{ room.id }}">{{ room.number }} - Espacios disponibles: {{ room.remaining_spaces }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% for bus_name, asientos in asientos.items %}
+                            <div class="mb-3">
+                                <label class="form-label">Asientos del {{ bus_name }}</label>
+                                <div class="asientos">
+                                    {% for asiento in asientos %}
+                                        {% if asiento.estado == 'disponible' %}
+                                            <li style="list-style: none; padding: 0px 5px;">{{ asiento.numero }} <input type="checkbox" name="seat_numbers" value="{{ asiento.bus.id }}_{{ asiento.numero }}"></li>
+                                        {% else %}
+                                            <li style="list-style: none; padding: 0px 5px;">{{ asiento.numero }} <span style="font-weight: bold;">Ocupado</span> <input type="checkbox" style="display: none;" name="seat_numbers"></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="mb-3">
+                            <label for="dates" class="form-label">Fechas</label>
+                            <select class="form-control" name="dates" id="dates" required>
+                                <option value="0">Seleccionado...</option>
+                                {% for date in dates %}
+                                    <option value="{{ date.id }}">{{ date.first_date }} al {{ date.second_date }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="voucher" class="form-label">Pago de $500</label>
+                            <input type="file" name="voucher" id="voucher" class="form-control" required accept="image/png, image/jpeg, image/webp">
+                        </div>
+                        <div class="mb-3 d-flex flex-row justify-content-center align-items-center text-center">
+                            <p>Acepto los <a href="{% url 'Terms_and_Conditions'%}" style="text-decoration: none;">términos y condiciones</a></p>
+                            <input type="checkbox" name="accept" id="accept" required class="form-check" style="margin-bottom: 15px; margin-left: 10px;">
+                        </div>
+                        <button type="submit" id="submit-button" class="btn btn-black">Registrarse</button>
+                    </form>
+                    <p>¿Ya tienes cuenta? <a href="/" style="color: blue; text-decoration: none;">Iniciar sesión</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer style="box-shadow: 0px 0px 1px black; background-color: rgb(158, 158, 158);">
+        <div class="group-1">
+            <div class="container">
+                <figure>
+                    <img src="{% static 'images/logo.png' %}" alt="logo" style="width: 120px; height: 120px; border-radius: 100px;">
+                </figure>
+            </div>
+            <div class="container">
+                <h2 class="cover-price">¿Que cubre lo que se paga?</h2>
+                <a href="{% url 'What_Price' %}" style="color: rgb(0, 89, 255); text-decoration: none; font-size: 20px;">Míralo aquí</a>
+            </div>
+            <div class="container">
+                <h2 class="contact">Contactanos</h2>
+                <a href="mailto:BethelExcursions@gmail.com" style="margin-bottom: 10px; text-decoration: none;">BethelExcursions@gmail.com</a>
+                <p>Con Wilbeth Chinchilla <a href="tel:+18173630668">817-363-0668</a></p>
+                <p>Con Verónica Chinchilla <a href="tel:+17023306776">702-330-6776</a></p>
+            </div>
+        </div>
+    </footer>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static 'js/terminosYcondiciones.js' %}"></script>
+    <script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>
