@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>Información del viaje</title> {% endblock %}
+{% block content %}
+<section class="information">
+    <div class="container">
+        <!-- Video destacado -->
+        <div class="row justify-content-center mb-4 mt-4">
+            <div class="col-md-8">
+                <video class="img-fluid rounded shadow-lg" controls autoplay style="width: 100%; height: auto; border: 5px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <source src="{% static 'images/introduction.mp4' %}" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-8">
+                <video class="img-fluid rounded shadow-lg" controls style="width: 100%; height: auto; border: 5px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <source src="{% static 'images/cataratas.mp4' %}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column justify-content-center align-items-center text-center">
+            <h1 class="display-4" style="color: rgb(0, 140, 255); font-weight: bold;">Itinerario</h1>
+            <img src="{% static 'images/itinerario.jpg' %}" alt="Itinerario" class="img-fluid rounded shadow-lg img-itinerario mb-4">
+        </div>
+        
+        <!-- Título de la galería -->
+        <div class="row text-center mb-4">
+            <div class="col">
+                <h1 class="display-4" style="color: rgb(0, 140, 255); font-weight: bold;">Conoce el viaje</h1>
+                <h4 class="text-muted">Galería de imágenes</h4>
+            </div>
+        </div>
+
+        <!-- Galería de imágenes -->
+        <div class="row g-4">
+            <div class="col-md-4 col-sm-6">
+                <div class="image-wrapper">
+                    <img src="{% static 'images/little_holy.jpg' %}" alt="Little_Holy" class="img-fluid rounded">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="image-wrapper">
+                    <img src="{% static 'images/comida.jpg' %}" alt="Comida" class="img-fluid rounded">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="image-wrapper">
+                    <img src="{% static 'images/ferrara.jpg' %}" alt="Ferrara" class="img-fluid rounded">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="image-wrapper">
+                    <img src="{% static 'images/letreros.jpg' %}" alt="Letreros" class="img-fluid rounded mb-4">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="image-wrapper">
+                    <img src="{% static 'images/ferry.jpg' %}" alt="Ferry" class="img-fluid rounded">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="image-wrapper">
+                    <img src="{% static 'images/area_japenese.jpg' %}" alt="Japenese" class="img-fluid rounded mb-4">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .img-fluid {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .img-fluid:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    .image-wrapper {
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 15px;
+        position: relative;
+    }
+    .image-wrapper img {
+        border: 3px solid #fff;
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+    .image-wrapper img:hover {
+        transform: scale(1.1);
+    }
+    h1.display-4 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+    }
+    h4.text-muted {
+        font-size: 1.25rem;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}

@@ -15,7 +15,8 @@ class uploadVoucherView(LoginRequiredMixin, View):
         upload = uploadVoucher.objects.create(user=user)
         if 'voucher' in request.FILES:
             voucher = request.FILES['voucher']
-            upload.voucher = voucher
+            binary_data = voucher.read()
+            upload.voucher = binary_data
             upload.save()
         messages.success(request, 'Voucher uploaded successfully')
         return redirect('/upload/')

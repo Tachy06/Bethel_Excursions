@@ -1,42 +1,50 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load pwa %}
-{% block title %} <title>Profile</title> {% endblock %}
+{% block title %} <title>Perfil</title> {% endblock %}
 {% block content %}
-<section class="profile">
+<section class="profile" style="height: auto;">
     <div class="container">
-        <h1>Perfil</h1>
-        {% if request.user.is_superuser %}
-        <div class="card" style="width: 22rem; height: 15rem; box-shadow: 0px 0px 5px black;">
-            <div class="card-body" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                <p class="card-text">Nombre: <span class="span-black">{{ user.first_name }}</span></p>
-                <p class="card-text">Apellidos: <span class="span-black">{{ user.last_name }}</span></p>
-                <p class="card-text">Usuario: <span class="span-black">{{ user.username }}</span></p>
-                <p class="card-text">Email: <span class="span-black">{{ user.email }}</span></p>
+        <div class="header-profile">
+            <h1 class="mt-3">Perfil</h1>
+        </div>
+        <div class="card-profile mb-4">
+            <div class="card-body">
+                <p class="card-text"><strong>Nombre:</strong> <span class="span-black">{{ user.first_name }}</span></p>
+                <p class="card-text"><strong>Apellidos:</strong> <span class="span-black">{{ user.last_name }}</span></p>
+                <p class="card-text"><strong>Usuario:</strong> <span class="span-black">{{ user.username }}</span></p>
+                <p class="card-text"><strong>Email:</strong> <span class="span-black">{{ user.email }}</span></p>
+                
+                {% if not request.user.is_superuser %}
+                <p class="card-text"><strong>Personas:</strong> <span class="span-black">{{ moreInformation.people }}</span></p>
+                <p class="card-text"><strong>Asiento:</strong> 
+                    {% for asiento in asientos %}
+                        {% if asiento.companion %}
+                            <span class="span-black">{{ asiento.bus.nombre }} - Asiento {{ asiento.numero }}</span><br>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+                {% if companions %}
+                    {% for companion in companions %}
+                        <p class="card-text"><strong>Acompañante:</strong> <span class="span-black">{{ companion.name }}</span></p>
+                        <p class="card-text"><strong>Asiento del acompañante:</strong> 
+                            {% for asiento in asientos %}
+                                {% if asiento.companion == companion %}
+                                    <span class="span-black">{{ asiento.bus.nombre }} - Asiento {{ asiento.numero }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endfor %}
+                {% endif %}
+                <p class="card-text"><strong>Habitación exclusiva:</strong> <span class="span-black">{{ moreInformation.vip|yesno:"Sí,No" }}</span></p>
+                <p class="card-text"><strong>Fecha del viaje:</strong> <span class="span-black">{{ moreInformation.date_of_travel.first_date }} al {{ moreInformation.date_of_travel.second_date }}</span></p>
+                {% if paid %}
+                <p class="card-text"><strong>Monto pagado:</strong> <span class="span-black">${{ paid.totalPaid }}</span></p>
+                {% endif %}
+                <p class="card-text"><strong>Deuda:</strong> <span class="span-black">${{ total_paid }}</span></p>
+                {% endif %}
             </div>
         </div>
-        {% else %}
-            <div class="card" style="width: 22rem; height: 25rem; box-shadow: 0px 0px 5px black;">
-                <div class="card-body" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                    <p class="card-text">Nombre: <span class="span-black">{{ user.first_name }}</span></p>
-                    <p class="card-text">Apellidos: <span class="span-black">{{ user.last_name }}</span></p>
-                    <p class="card-text">Usuario: <span class="span-black">{{ user.username }}</span></p>
-                    <p class="card-text">Email: <span class="span-black">{{ user.email }}</span></p>
-                    <p class="card-text">¿Cuantas personas van con usted incluyendolo?: <span class="span-black">{{ moreInformation.people }}</span></p>
-                    <p class="card-text">¿Cuantas habitaciones reservó?: <span class="span-black">{{ moreInformation.rooms }}</span></p>
-                    <p class="card-text">Asientos:
-                        {% for asiento in asientos %}
-                            <span class="span-black">{{ asiento.bus.nombre }} - Asiento {{ asiento.numero }}</span>{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
-                    <p class="card-text">Fecha del viaje: <span class="span-black">{{ moreInformation.date_of_travel.first_date }} al {{ moreInformation.date_of_travel.second_date }}</span></p>
-                    {% if not paid %}
-                    {% else %}
-                        <p>How much have you paid? <span class="span-black">${{paid.totalPaid}}</span></p>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
     </div>
 </section>
 {% endblock %}

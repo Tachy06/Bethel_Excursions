@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+{% load static %}
+{% load pwa %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}La web oficial de la mecánica Wesaca{% endblock %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% progressive_web_app_meta %}
+    {% block title %} <title>Panel Admin</title> {% endblock %}
+</head>
+<body>
+    <style>
+        /* Estilo para ocultar los botones de incremento y decremento en Chrome, Safari y Edge */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    
+        /* Estilo para ocultar los botones de incremento y decremento en Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Asegurar que todas las tarjetas tengan el mismo tamaño */
+        .card {
+            width: 100%;
+            max-width: 350px;
+            margin: 20px auto;
+            box-shadow: 0px 0px 5px black;
+        }
+    </style>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert" style="margin-bottom: 0px;">
+                <p style="font-size: 17px; font-weight: bold;">{{ message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if request.user.is_superuser %}
+        {% block content %}
+            <section class="back">
+                <div class="container">
+                    <a href="/admin/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                        </svg>
+                    </a>
+                </div>
+            </section>
+            <main class="admin">
+                <div class="container">
+                        <div class="card" style="min-width: 25rem;">
+                            <div class="card-body">
+                                {% if user.is_superuser %}
+                                    <h5 class="card-title">Administrador</h5>
+                                    <p class="card-text">Nombre: <span style="font-weight: bold;">{{user.first_name}}</span></p>
+                                    <p class="card-text">Apellidos: <span style="font-weight: bold;">{{user.last_name}}</span></p>
+                                    <p class="card-text">Usuario: <span style="font-weight: bold;">{{user.username}}</span></p>
+                                    <p class="card-text">Email: <span style="font-weight: bold;">{{user.email}}</span></p>
+                                    <div class="buttons-row">
+                                        <a href="{% url 'ModifyUser' user.id %}" class="btn btn-outline-warning mx-2" style="height: 40px;">Modificar</a>
+                                        <form action="/delete_user/{{user.id}}/" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-danger" style="height: 40px;">Eliminar</button>
+                                        </form>
+                                    </div>
+                                {% else %}
+                                    <p class="card-text">Nombre: <span style="font-weight: bold;">{{user.first_name}}</span></p>
+                                    <p class="card-text">Apellidos: <span style="font-weight: bold;">{{user.last_name}}</span></p>
+                                    <p class="card-text">Usuario: <span style="font-weight: bold;">{{user.username}}</span></p>
+                                    <p class="card-text">Email: <span style="font-weight: bold;">{{user.email}}</span></p>
+                                    {% if moreInfo %}
+                                        <p class="card-text">Personas que van: <span style="font-weight: bold;">{{moreInfo.people}}</span></p>
+                                        <p class="card-text">Fecha del viaje: <span class="span-black">{{moreInfo.date_of_travel.first_date}} al {{moreInfo.date_of_travel.second_date}}</span></p>
+                                        {% if not user.moreInformation.price %}
+                                            <p class="card-text">Cuanto debe: <span class="span-black">$0</span></p>
+                                        {% else %}
+                                            <p class="card-text">Cuanto debe: <span class="span-black">${{debe}}</span></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p class="card-text">Sin información adicional</p>
+                                    {% endif %}
+                                    {% if moreInfo.vip %}
+                                        <p class="card-text">¿Habitación VIP?: <span class="span-black">Si</span></p>
+                                    {% else %}
+                                        <p class="card-text">¿Habitación VIP?: <span class="span-black">No</span></p>
+                                    {% endif %}
+                                    {% for seat in asientos %}
+                                        {% if seat %}
+                                            {% if seat.companion != None %}
+                                            {% else %}
+                                                <p class="card-text">Asiento <span class="span-black">#{{seat.numero}}</span> del <span class="span-black">{{seat.bus}}</span></p>
+                                            {% endif %}
+                                        {% else %}
+                                            <p class="card-text">Sin asiento asignado</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if companions %}
+                                        <p class="card-text">Acompañantes:</p>
+                                        <ul>
+                                            {% for companion in companions %}
+                                                <p class="span-black">{{ companion.name }}</p>
+                                            {% endfor %}
+                                            <p>Asientos de los acompañantes:</p>
+                                            {% for seat in asientos %}
+                                                {% if seat.companion != None %}
+                                                    <p class="span-black">Asiento #{{seat.numero}} en el {{seat.bus}}</p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p class="card-text">Sin acompañantes</p>
+                                    {% endif %}
+                                    {% if not totalPaid %}
+                                        {% if moreInfo %}
+                                            <p class="card-text">Total pagado: <span style="font-weight: bold;">$0</span></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p class="card-text">Total pagado: <span class="span-black">${{totalPaid.totalPaid}}</span></p>
+                                    {% endif %}
+                                    <div class="buttons-row">
+                                        <a href="{% url 'ModifyUser' user.id %}" class="btn btn-outline-warning mx-2" style="height: 40px;">Modificar</a>
+                                        <form action="/delete_user/{{user.id}}/" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-danger" style="height: 40px;">Eliminar</button>
+                                        </form>
+                                        {% if not moreInfo.price %}
+                                        {% else %}
+                                                <a href="{% url 'Vouchers_Admin' user.id %}" class="btn btn-outline-success mx-2" style="width: 115px; height: 50px; font-size: 13px;">Ver comprobantes</a>
+                                                <a href="{% url 'ViewPaymentsAdmin' user.id %}" class="btn btn-outline-primary" style="width: 110px; height: 50px; font-size: 13px;">Ver pagos</a>
+                                        {% endif %}
+                                    </div>
+                                    {% if not moreInfo.price %}
+                                    {% else %}
+                                        <form action="{% url 'TotalPaid' user.id %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="mb-3">
+                                                <label for="paid" class="form-label" style="margin-top: 10px;">Agregar pagos</label>
+                                                <input type="number" id="paid" name="paid" class="form-control" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-black">Pagar</button>
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                </div>
+            </main>
+        {% endblock %}
+    {% else %}
+        <p>No tienes permisos para acceder a este contenido.</p>
+    {% endif %}
+        <button id="scrollToTopBtn">↑</button>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/scrollbtn.js' %}"></script>
+</body>
+</html>

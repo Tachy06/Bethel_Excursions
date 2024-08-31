@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const peopleSelect = document.getElementById('people');
-    const roomsSelect = document.getElementById('rooms');
-    const numberRoomSelect = document.getElementById('number_room');
+    const paymentLabel = document.querySelector('label[for="voucher"]');
 
     function dividirInputs() {
         var divs = document.querySelectorAll('.asientos');
@@ -37,12 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function limitarAsientos() {
-        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var checkboxes = document.querySelectorAll('input[type="checkbox"].bus');
         var maxAsientos = 4;
 
         checkboxes.forEach(function(checkbox) {
             checkbox.addEventListener('change', function() {
-                var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"].bus:checked');
                 if (selectedCheckboxes.length > maxAsientos) {
                     this.checked = false;
                     alert('Solo puedes seleccionar un máximo de ' + maxAsientos + ' asientos.');
@@ -74,61 +73,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Show and set required based on the number of people
-        if (numPeople > 1) {
+        if (numPeople >= 2) {
             fields[0].style.display = 'block';
             inputs[0].required = true;
         }
-        if (numPeople > 2) {
+        if (numPeople >= 3) {
             fields[1].style.display = 'block';
             inputs[1].required = true;
         }
-        if (numPeople > 3) {
+        if (numPeople >= 4) {
             fields[2].style.display = 'block';
             inputs[2].required = true;
         }
-    }
 
-    function updateRoomOptions() {
-        const numPeople = parseInt(peopleSelect.value);
-        const numRooms = parseInt(roomsSelect.value);
-
-        // Disable option "2" in rooms if people is 1 or 2
-        roomsSelect.options[2].disabled = (numPeople === 1);
-
-        // Adjust number_room options
-        const numberRoomOptions = numberRoomSelect.options;
-        for (let i = 0; i < numberRoomOptions.length; i++) {
-            numberRoomOptions[i].disabled = false;
-            numberRoomOptions[i].selected = false;
-        }
-
-        if (numRooms > 1) {
-            if (numPeople > 1) {
-                // Disable all options except the first one
-                numberRoomSelect.multiple = true;
-            } else {
-                // Allow multiple selections for number_room
-                for (let i = 1; i < numberRoomOptions.length; i++) {
-                    numberRoomOptions[i].disabled = true;
-                }
-            }
-        } else {
-            // Allow only single selection for number_room
-            numberRoomSelect.multiple = false;
-        }
+        // Update the payment label based on the number of people
+        const amount = numPeople * 500;
+        paymentLabel.textContent = `Pago de $${amount}`;
     }
 
     // Initial calls to set the fields based on default selection
     dividirInputs();
     limitarAsientos();
     updateFields();
-    updateRoomOptions();
 
-    // Event listeners for changes in the people and rooms selection
+    // Event listeners for changes in the people selection
     peopleSelect.addEventListener('change', function() {
         updateFields();
-        updateRoomOptions();
     });
-
-    roomsSelect.addEventListener('change', updateRoomOptions);
 });

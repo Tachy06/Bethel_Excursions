@@ -8,7 +8,6 @@
     <meta name="description" content="{% block meta_description %}La web oficial de la mecánica Wesaca{% endblock %}">
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% progressive_web_app_meta %}
     {% block title %} <title>Panel Admin</title> {% endblock %}
@@ -25,6 +24,14 @@
         /* Estilo para ocultar los botones de incremento y decremento en Firefox */
         input[type="number"] {
             -moz-appearance: textfield;
+        }
+
+        /* Asegurar que todas las tarjetas tengan el mismo tamaño */
+        .card {
+            width: 100%;
+            max-width: 350px;
+            margin: 20px auto;
+            box-shadow: 0px 0px 5px black;
         }
     </style>
     {% if messages %}
@@ -54,7 +61,6 @@
                             <h3 style="font-weight: normal;">Usuarios registrados: <span style="font-weight: bold;">{{count_users}}</span></h3>
                             <div class="d-grip gap-2">
                                 <a href="/register/" class="btn btn-success">Registrar un usuario nuevo</a>
-                                <a href="{% url 'ViewRooms' %}" class="btn btn-outline-dark margin-celu">Agregar, ver y eliminar habitaciones</a>
                             </div>
                             <div class="d-grip gap-2 mt-1">
                                 {% for bus in buses %}
@@ -70,93 +76,108 @@
                             </div>
                         </div>
                     </div>
+                    <div class="my-4">
+                        <h5 style="font-weight: normal;">Buscar usuario</h5>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="input-group mb-3">
+                                <input autofocus type="text" class="form-control" placeholder="Usuario" name="username">
+                                <button type="submit" class="btn btn-outline-primary" style="height: 40px;">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
                     {% for user in users %}
-                        {% if user.user.is_superuser %}
-                            {% if user.user.username == 'Wilberth' %}
-                                <div class="card" style="width: 25rem; height: auto; margin: 20px; box-shadow: 0px 0px 5px black;">
-                                    <div class="card-body">
-                                        <p class="card-text" style="font-weight: bold;">Es usuario administrador</p>
-                                        <p class="card-text">Nombre: <span style="font-weight: bold;">{{user.user.first_name}}</span></p>
-                                        <p class="card-text">Apellidos: <span style="font-weight: bold;">{{user.user.last_name}}</span></p>
-                                        <p class="card-text">Usuario: <span style="font-weight: bold;">{{user.user.username}}</span></p>
-                                        <p class="card-text">Email: <span style="font-weight: bold;">{{user.user.email}}</span></p>
-                                        <div class="buttons-row">
-                                            <a href="{% url 'ModifyUser' user.user.id %}" class="btn btn-outline-warning" style="height: 40px;">Modificar</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div class="card" style="width: 25rem; height: auto; margin: 20px; box-shadow: 0px 0px 5px black;">
-                                    <div class="card-body">
-                                        <p class="card-text" style="font-weight: bold;">Es usuario administrador</p>
-                                        <p class="card-text">Nombre: <span style="font-weight: bold;">{{user.user.first_name}}</span></p>
-                                        <p class="card-text">Apellidos: <span style="font-weight: bold;">{{user.user.last_name}}</span></p>
-                                        <p class="card-text">Usuario: <span style="font-weight: bold;">{{user.user.username}}</span></p>
-                                        <p class="card-text">Email: <span style="font-weight: bold;">{{user.user.email}}</span></p>
-                                        <div class="buttons-row">
-                                            <a href="{% url 'ModifyUser' user.user.id %}" class="btn btn-outline-warning" style="height: 40px;">Modificar</a>
-                                            <form action="/delete_user/{{user.user.id}}/" method="post">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-outline-danger" style="margin-left: 10px;">Borrar</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% else %}
-                            <div class="card" style="width: 25rem; height: auto; margin: 20px; box-shadow: 0px 0px 5px black;">
-                                <div class="card-body">
+                        <div class="card" style="min-width: 25rem;">
+                            <div class="card-body">
+                                {% if user.user.is_superuser %}
+                                    <h5 class="card-title">Administrador</h5>
                                     <p class="card-text">Nombre: <span style="font-weight: bold;">{{user.user.first_name}}</span></p>
                                     <p class="card-text">Apellidos: <span style="font-weight: bold;">{{user.user.last_name}}</span></p>
                                     <p class="card-text">Usuario: <span style="font-weight: bold;">{{user.user.username}}</span></p>
                                     <p class="card-text">Email: <span style="font-weight: bold;">{{user.user.email}}</span></p>
-                                    {% if not user.moreInformation %}
-                                    {% else %}
-                                        <p class="card-text">Personas que van: <span style="font-weight: bold;">{{user.moreInformation.people}}</span></p>
-                                        <p class="card-text">Cantidad de habitaciones apartadas: <span style="font-weight: bold;">{{user.moreInformation.rooms}}</span></p>
-                                    {% endif %}
-                                    <p class="card-text">Número de habitación: <span style="font-weight: bold;">
-                                        {% for reservation in user.reservations %}
-                                            <span class="span-black">{{ reservation.room.number }}</span>{% if not forloop.last %}, {% endif %}
-                                        {% endfor %}
-                                    </span></p>
-                                    <p class="card-text">Asientos: <span style="font-weight: bold;">
-                                        {% if not user.asientos %}
-                                            <span class="span-black">Ninguno</span>
-                                        {% else %}
-                                            {% for asiento in user.asientos %}
-                                                <span class="span-black">{{ asiento.bus.nombre }} - Asientos {{ asiento.numero }}</span>{% if not forloop.last %}, {% endif %}
-                                            {% endfor %}
-                                        {% endif %}
-                                    </span></p>
-                                    {% if not user.totalPaid %}
-                                        <p class="card-text">Total pagado: <span style="font-weight: bold;">$0</span></p>
-                                    {% else %}
-                                        <p class="card-text">Total pagado: <span style="font-weight: bold;">${{user.totalPaid.totalPaid}}</span></p>
-                                    {% endif %}
-                                    {% if not user.moreInformation.price %}
-                                        <p class="card-text">Cuanto debe: <span class="span-black">$0</span></p>
-                                    {% else %}
-                                        <p class="card-text">Cuanto debe: <span class="span-black">${{user.moreInformation.price}}</span></p>
-                                    {% endif %}
-                                    {% if user.companions %}
-                                        {% if not user.companions.person2 %}
-                                            <p class="card-text">Compañeros de viaje: <span class="span-black">{{user.companions.person1}}</span></p>
-                                        {% else %}
-                                            <p class="card-text">Compañeros de viaje: <span class="span-black">{{user.companions.person1}} - {{user.companions.person2}} - {{user.companions.person3}}</span></p>
-                                        {% endif %}
-                                    {% endif %}
-                                    <p class="card-text">Fecha del viaje: <span class="span-black">{{user.moreInformation.date_of_travel.first_date}} al {{user.moreInformation.date_of_travel.second_date}}</span></p>
                                     <div class="buttons-row">
-                                        <a href="{% url 'ModifyUser' user.user.id %}" class="btn btn-outline-warning" style="height: 40px;">Modificar</a>
+                                        <a href="{% url 'ModifyUser' user.user.id %}" class="btn btn-outline-warning mx-2" style="height: 40px;">Modificar</a>
                                         <form action="/delete_user/{{user.user.id}}/" method="post">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-outline-danger" style="margin-left: 10px;">Borrar</button>
+                                            <button type="submit" class="btn btn-outline-danger" style="height: 40px;">Eliminar</button>
+                                        </form>
+                                    </div>
+                                {% else %}
+                                    <p class="card-text">Nombre: <span style="font-weight: bold;">{{user.user.first_name}}</span></p>
+                                    <p class="card-text">Apellidos: <span style="font-weight: bold;">{{user.user.last_name}}</span></p>
+                                    <p class="card-text">Usuario: <span style="font-weight: bold;">{{user.user.username}}</span></p>
+                                    <p class="card-text">Email: <span style="font-weight: bold;">{{user.user.email}}</span></p>
+                                    {% if user.moreInformation %}
+                                        <p class="card-text">Personas que van: <span style="font-weight: bold;">{{user.moreInformation.people}}</span></p>
+                                        <p class="card-text">Fecha del viaje: <span class="span-black">{{user.moreInformation.date_of_travel.first_date}} al {{user.moreInformation.date_of_travel.second_date}}</span></p>
+                                        {% if not user.moreInformation.price %}
+                                            <p class="card-text">Cuanto debe: <span class="span-black">$0</span></p>
+                                        {% else %}
+                                            <p class="card-text">Cuanto debe: <span class="span-black">${{user.debe}}</span></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p class="card-text">Sin información adicional</p>
+                                    {% endif %}
+                                    {% if user.moreInformation.vip %}
+                                        <p class="card-text">¿Habitación VIP?: <span class="span-black">Si</span></p>
+                                    {% else %}
+                                        <p class="card-text">¿Habitación VIP?: <span class="span-black">No</span></p>
+                                    {% endif %}
+                                    {% if user.room %}
+                                        <p class="card-text">Habitación: <span class="span-black">{{user.room.number}}</span></p>
+                                    {% else %}
+                                        <p class="card-text" style="font-weight: bold;">Sin habitación asignada</p>
+                                    {% endif %}
+                                    {% if user.seat %}
+                                        {% for seat in user.seat %}
+                                            {% if seat.companion != None %}
+                                            {% else %}
+                                                <p class="card-text">Asiento <span class="span-black">#{{seat.numero}}</span> del <span class="span-black">{{seat.bus}}</span></p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <p class="card-text">Sin asiento asignado</p>
+                                    {% endif %}
+                                    {% if user.companions %}
+                                        <p class="card-text">Acompañantes:</p>
+                                        <ul>
+                                            {% for companion, room in companion_rooms %}
+                                                <li style="list-style: none;">
+                                                    <p class="span-black mt-3">{{ companion.name }}</p>
+                                                    {% if room %}
+                                                        <p class="card-text">Habitación del acompañante: <span class="span-black">{{ room.number }}</span></p>
+                                                    {% else %}
+                                                        <p class="card-text">Habitación del acompañante: <span class="span-black">Sin asignar</span></p>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                            <p class="card-text mt-3">Asientos de los acompañantes:</p>
+                                            {% for seat in user.seat %}
+                                                {% if seat.companion != None %}
+                                                    <p class="span-black">Asiento #{{seat.numero}} en el {{seat.bus}}</p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p class="card-text">Sin acompañantes</p>
+                                    {% endif %}
+                                    {% if not user.totalPaid %}
+                                        {% if user.moreInformation %}
+                                            <p class="card-text">Total pagado: <span style="font-weight: bold;">$0</span></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p class="card-text">Total pagado: <span class="span-black">${{user.totalPaid.totalPaid}}</span></p>
+                                    {% endif %}
+                                    <div class="buttons-row">
+                                        <a href="{% url 'ModifyUser' user.user.id %}" class="btn btn-outline-warning mx-2" style="height: 40px;">Modificar</a>
+                                        <form action="/delete_user/{{user.user.id}}/" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-danger" style="height: 40px;">Eliminar</button>
                                         </form>
                                         {% if not user.moreInformation.price %}
                                         {% else %}
-                                            <a href="{% url 'Vouchers_Admin' user.user.id %}" class="btn btn-outline-success" style="width: 115px; height: 50px; font-size: 13px; margin-left: 10px;">Ver comprobantes</a>
-                                            <a href="{% url 'ViewPaymentsAdmin' user.user.id %}" class="btn btn-outline-primary" style="width: 110px; height: 50px; font-size: 13px; margin-left: 10px;">Ver pagos</a>
+                                                <a href="{% url 'Vouchers_Admin' user.user.id %}" class="btn btn-outline-success mx-2" style="width: 115px; height: 50px; font-size: 13px;">Ver comprobantes</a>
+                                                <a href="{% url 'ViewPaymentsAdmin' user.user.id %}" class="btn btn-outline-primary" style="width: 110px; height: 50px; font-size: 13px;">Ver pagos</a>
                                         {% endif %}
                                     </div>
                                     {% if not user.moreInformation.price %}
@@ -170,18 +191,18 @@
                                             <button type="submit" class="btn btn-black">Pagar</button>
                                         </form>
                                     {% endif %}
-                                </div>
-                            </div>      
-                        {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
             </main>
         {% endblock %}
+    {% else %}
+        <p>No tienes permisos para acceder a este contenido.</p>
+    {% endif %}
         <button id="scrollToTopBtn">↑</button>
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'js/scrollbtn.js' %}"></script>
-    {% else %}
-        <h1>Please login</h1>
-    {% endif %}
 </body>
 </html>

@@ -67,6 +67,12 @@ MESSAGE_TAGS = {
 
 ROOT_URLCONF = 'Bethel_Excursions.urls'
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://10.0.0.196:8000',
+]
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

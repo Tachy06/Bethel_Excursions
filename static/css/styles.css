@@ -25,16 +25,8 @@ body{
     text-align: center;
 }
 
-.register .container .fondo{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    box-shadow: 0px 0px 3px black;
-    background-color: rgb(247, 244, 244);
-    width: 380px;
-    height: auto;
+.register .container .card{
+    width: 24rem;
 }
 
 .register .container .fondo .title{
@@ -209,6 +201,10 @@ body{
     text-align: center;
 }
 
+.admin .container .card{
+    width: 25rem;
+}
+
 .admin .container .title{
     display: flex;
     flex-direction: column;
@@ -379,14 +375,95 @@ footer .group-1 .container figure img{
 .login-margin{
     margin-top: 200px;
 }
+
+.view_information{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/fondo_information.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 50dvh;
+}
+
+.img-itinerario{
+    width: 400px;
+    height: 300px;
+}
+
+.profile .container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.header-profile h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.card-profile {
+    background-color: #fff;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.card-profile .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.card-profile .card-body .card-text {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.span-black {
+    color: #000;
+    font-weight: bold;
+}
+
+.card-profile .card-body .card-text strong {
+    color: #333;
+    font-weight: bold;
+}
+
+.seat_check{
+    outline: 1px solid green;
+}
+
+.btn-outline-black{
+    background-color: white;
+    color: black;
+    outline: 1px solid black;
+}
+
+.btn-outline-black:hover{
+    background-color: black;
+    color: white;
+}
+
+.btn-black:hover{
+    background-color: white;
+    color: black;
+    outline: 1px solid black;
+}
+
 @media only screen and (min-width: 768px) {
     .register{
         height: auto;
     }
 
-    .register .container .fondo{
-        width: 600px;
-        margin: 20px 0px;
+    .register .container .card{
+        width: 40rem;
     }
 
     .login .container .fondo{
@@ -461,5 +538,14 @@ footer .group-1 .container figure img{
 
     .login-margin{
         margin-top: 100px;
+    }
+
+    .img-itinerario{
+        width: 700px;
+        height: 600px;
+    }
+
+    .seat_check{
+        outline: none;
     }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 {% load pwa %}
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,30 +11,79 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% progressive_web_app_meta %}
-    <title>Terminos y Condiciones</title>
+    <title>Términos y Condiciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .back {
+            background-color: #ffffff;
+            padding: 15px 0;
+            border-bottom: 2px solid #ddd;
+        }
+        .back a {
+            text-decoration: none;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container_back{
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.125rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        p span {
+            font-weight: bold;
+            color: #000;
+        }
+        .important {
+            border-left: 5px solid #f44336;
+            padding-left: 15px;
+            background-color: #fff3f3;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <section class="back">
-        <div class="container">
+        <div class="container_back">
             <a href="/register/">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
                 </svg>
             </a>
         </div>
     </section>
-    <div class="d-flex justify-content-center align-items-center text-center flex-column">
-        <div class="container">
-            <h1 class="mt-2">Terminos y Condiciones</h1>
-            <div class="d-flex justify-content-center align-items-center text-center flex-column">
-                <p style="font-size: 18px;" class="mt-2">Todo pago realizado por el usuario no se aplica devolución.</p>
-                <p style="font-size: 18px;" class="mt-2">El pago de <span style="font-weight: bold;">$500</span> ni los siguientes tendrán devoluciones.</p>
-                <p style="font-size: 18px;" class="mt-2">Todo el pago debe estar <span style="font-weight: bold;">1 MES ANTES</span> del viaje.</p>
-                <p style="font-size: 18px;" class="mt-2">Los tours se reservan con un depósito de <span style="font-weight: bold;">$500</span> por persona para guardar su asiento. No somos responsables de la pérdida de fondos debido a cancelaciones.</p>
-                <p style="font-size: 18px;" class="mt-2">El itinerario puede cambiar según las condiciones climáticas o asuntos fuera de nuestro control. <span style="font-weight: bold;">NO SE DEVUELVEN REMBOLSOS</span> si desastres naturales afectan nuestra excursión.</p>
-                <p>Pagos realizados con <span style="font-weight: bold;">TARJETA DE CRÉDITO</span> incurren en un cobro de <span style="font-weight: bold;">3.9%</span> adicional.</p>
-            </div>
+    <div class="container">
+        <h1>Términos y Condiciones</h1>
+        <div class="important">
+            <p><strong>Todo pago realizado por el usuario no se aplica devolución.</strong></p>
         </div>
+        <p>El pago de <span>$500</span> ni los siguientes tendrán devoluciones.</p>
+        <p class="important">Si reservas una habitación como exclusiva, no vas a pagar el precio individual sino un precio mayor al ser exclusivo, al registrarse salen los precios de todo.</p>
+        <p>El pago completo debe estar <span>1 MES ANTES</span> del viaje.</p>
+        <p class="important">Si no opta por la habitación exclusiva se le asignarán otras personas a la habitación.</p>
+        <p>Los tours se reservan con un depósito de <span>$500</span> por persona para guardar su asiento. No somos responsables de la pérdida de fondos debido a cancelaciones.</p>
+        <p class="important">El itinerario puede cambiar según las condiciones climáticas o asuntos fuera de nuestro control. <span>NO SE DEVUELVEN REMBOLSOS</span> si desastres naturales afectan nuestra excursión.</p>
+        <p>Pagos realizados con <span>TARJETA DE CRÉDITO</span> incurren en un cobro de <span>3.9%</span> adicional.</p>
     </div>
 </body>
 </html>

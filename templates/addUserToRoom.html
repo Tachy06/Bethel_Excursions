@@ -1,0 +1,90 @@
+{% extends 'PanelAdmin.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>Agregar usuarios a las habitaciones</title> {% endblock %}
+{% block content %}
+<div class="container-fluid d-flex flex-column" style="height: 100vh; padding: 0;">
+    <div class="d-flex justify-content-start align-items-start">
+        <section class="back">
+            <div class="container">
+                <a href="{% url 'ViewRooms' bus_id %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+    </div>
+    <div class="d-flex justify-content-center align-items-center flex-grow-1">
+        <div class="d-flex flex-column align-items-center text-center">
+            <h1>Agregar usuarios a las habitaciones</h1>
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3 row">
+                            <label for="user1" class="form-label text-warning">No requerido</label>
+                            <select name="user1" id="user1" class="form-control text-center">
+                                <option value="0">Seleccione el usuario</option>
+                                {% for user in users %}
+                                    {% if not user.is_superuser %}
+                                        <option value="{{user.username}}|user">{{ user.first_name }} {{ user.last_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for companions in companions %}
+                                    <option value="{{ companions.id }}|companion">{{ companions.name }} (ligado a {{ companions.user.first_name }} {{ companions.user.last_name }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="user2" class="form-label text-warning">No requerido</label>
+                            <select name="user2" id="user2" class="form-control text-center">
+                                <option value="0">Seleccione el usuario</option>
+                                {% for user in users %}
+                                    {% if not user.is_superuser %}
+                                        <option value="{{user.username}}|user">{{ user.first_name }} {{ user.last_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for companions in companions %}
+                                    <option value="{{ companions.id }}|companion">{{ companions.name }} (ligado a {{ companions.user.first_name }} {{ companions.user.last_name }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="user3" class="form-label text-warning">No requerido</label>
+                            <select name="user3" id="user3" class="form-control text-center">
+                                <option value="0">Seleccione el usuario</option>
+                                {% for user in users %}
+                                    {% if not user.is_superuser %}
+                                        <option value="{{user.username}}|user">{{ user.first_name }} {{ user.last_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for companions in companions %}
+                                    <option value="{{ companions.id }}|companion">{{ companions.name }} (ligado a {{ companions.user.first_name }} {{ companions.user.last_name }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="user4" class="form-label text-warning">No requerido</label>
+                            <select name="user4" id="user4" class="form-control text-center">
+                                <option value="0">Seleccione el usuario</option>
+                                {% for user in users %}
+                                    {% if not user.is_superuser %}
+                                        <option value="{{user.username}}|user">{{ user.first_name }} {{ user.last_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for companions in companions %}
+                                    <option value="{{ companions.id }}|companion">{{ companions.name }} (ligado a {{ companions.user.first_name }} {{ companions.user.last_name }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="button-centered d-flex justify-content-center align-items-center text-center">
+                            <button type="submit" class="btn btn-black px-5">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

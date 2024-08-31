@@ -22,11 +22,15 @@
                     <div class="col-md-4">
                         <div class="information" style="display: flex; flex-direction: column; margin: 20px 30px; justify-content: center; align-items: center; text-align: center;">
                             <p style="color: rgb(0, 0, 0);">Fecha: <span style="font-weight: bold;">{{voucher.date}}</span></p>
-                            <input type="checkbox" id="expand-trigger">
-                            <label for="expand-trigger">
-                                <img src="{{voucher.voucher.url}}" alt="{{voucher.id}}" class="img-voucher expandable-image">
-                            </label>
-                            <form action="{% url 'deleteVoucher' voucher.id %}" method="post">{% csrf_token %}
+                            {% if voucher.base64_data %}
+                                <input type="checkbox" id="expand-trigger-{{ voucher.id }}" style="display: none;">
+                                <label for="expand-trigger-{{ voucher.id }}">
+                                    <img src="data:image/png;base64,{{ voucher.base64_data }}" alt="Voucher {{voucher.id}}" class="img-voucher expandable-image">
+                                </label>
+                            {% else %}
+                                <p>No hay imagen disponible</p>
+                            {% endif %}
+                            <form action="{% url 'DeleteVoucherAdmin' voucher.id %}" method="post">{% csrf_token %}
                                 <button type="submit" style="margin-top: 10px; margin-bottom: 20px;" class="btn btn-danger">Borrar comprobante</button>
                             </form>
                         </div>

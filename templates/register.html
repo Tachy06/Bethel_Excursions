@@ -24,122 +24,171 @@
             {% endfor %}
         {% endif %}
         <div class="container">
-            <div class="card" style="width: 24rem; height: auto; box-shadow: -1px 1px 5px black;">
+            <div class="card" style="height: auto; box-shadow: -1px 1px 5px black;">
                 <div class="card-body">
                     <div class="title">
                         <h4 style="margin: 10px 0px;">Register Bethel Excursions</h4>
                     </div>
                     <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="first_name" class="form-label">Nombre</label>
-                            <input type="text" id="first_name" name="first_name" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="first_last_name" class="form-label">Primer apellido</label>
-                            <input type="text" id="first_last_name" name="first_last_name" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="second_last_name" class="form-label">Segundo apellido</label>
-                            <input type="text" id="second_last_name" name="second_last_name" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Usuario</label>
-                            <input type="text" id="username" name="username" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" id="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" id="password" name="password" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="people">¿Cuantas personas por habitación?</label>
-                            <select name="people" id="people" class="form-control" required>
-                                <option value="0">Seleccionar...</option>
-                                <option value="1">1 person</option>
-                                <option value="2">2 people</option>
-                                <option value="3">3 people</option>
-                                <option value="4">4 people</option>
-                            </select>
-                        </div>
-                        <div class="form-group person-field" id="person-field-1">
-                            <label for="person1"><span style="color: red;">**</span>Nombre de la persona 1</label>
-                            <input type="text" id="person1" name="person1" class="form-control">
-                        </div>
-                        <div class="form-group person-field" id="person-field-2">
-                            <label for="person2"><span style="color: red;">**</span>Nombre de la persona 2</label>
-                            <input type="text" id="person2" name="person2" class="form-control">
-                        </div>
-                        <div class="form-group person-field" id="person-field-3">
-                            <label for="person3"><span style="color: red;">**</span>Nombre de la persona 3</label>
-                            <input type="text" id="person3" name="person3" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="rooms" class="form-label">Habitaciones a reservar</label>
-                            <select name="rooms" id="rooms" class="form-control" required>
-                                <option value="0">Seleccionar...</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="vip">¿Habitación exclusiva?</label>
-                            <div class="d-flex flex-row justify-content-center">
-                                <div class="form-check">
-                                    <input class="radio_vip" type="radio" name="RadioVip" id="flexRadioYes" value="Yes" style="width: 40px; height: 20px; margin: 0px; padding: 0px;">
-                                    <label class="form-check-label" for="flexRadioYes">
-                                        Sí
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="radio_sex" type="radio" name="RadioVip" id="flexRadioNo" value="No" checked style="width: 40px; height: 20px; margin: 0px; padding: 0px;">
-                                    <label class="form-check-label" for="flexRadioNo" style="margin-right: 10px;">
-                                        No
-                                    </label>
-                                </div>
+                        <div class="row d-flex justify-content-center align-items-center text-center">
+                            <div class="col-md-6 mb-3 d-flex flex-row justify-content-center align-items-center text-center">
+                                <p>Acepto los <a href="{% url 'Terms_and_Conditions'%}" style="text-decoration: none;">términos y condiciones</a></p>
+                                <input type="checkbox" name="accept" id="accept" required class="form-check" style="margin-bottom: 15px; margin-left: 10px;">
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="number_room" class="form-label">Número de habitación a reservar</label>
-                            <select name="number_room" id="number_room" class="form-control" required>
-                                <option value="0">Seleccionar...</option>
-                                {% for room in rooms %}
-                                    <option value="{{ room.id }}">{{ room.number }} - Espacios disponibles: {{ room.remaining_spaces }}</option>
-                                {% endfor %}
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="first_name" class="form-label">Nombre</label>
+                                <input autofocus type="text" id="first_name" name="first_name" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="first_last_name" class="form-label">Primer apellido</label>
+                                <input type="text" id="first_last_name" name="first_last_name" class="form-control" required>
+                            </div>
                         </div>
-                        {% for bus_name, asientos in asientos.items %}
-                            <div class="mb-3">
-                                <label class="form-label">Asientos del {{ bus_name }}</label>
-                                <div class="asientos">
-                                    {% for asiento in asientos %}
-                                        {% if asiento.estado == 'disponible' %}
-                                            <li style="list-style: none; padding: 0px 5px;">{{ asiento.numero }} <input type="checkbox" name="seat_numbers" value="{{ asiento.bus.id }}_{{ asiento.numero }}"></li>
-                                        {% else %}
-                                            <li style="list-style: none; padding: 0px 5px;">{{ asiento.numero }} <span style="font-weight: bold;">Ocupado</span> <input type="checkbox" style="display: none;" name="seat_numbers"></li>
-                                        {% endif %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="second_last_name" class="form-label">Segundo apellido</label>
+                                <input type="text" id="second_last_name" name="second_last_name" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Crea tu usuario</label>
+                                <input type="text" id="username" name="username" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Crea tu contraseña</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="people">¿Cuantas personas por habitación?</label>
+                                <select name="people" id="people" class="form-control" required onchange="updatePrice()">
+                                    <option value="0" selected disabled>Seleccionar...</option>
+                                    <option value="1">1 persona ${{price.price}} (por persona)</option>
+                                    <option value="2">2 personas ${{price.price}} (por persona)</option>
+                                    <option value="3">3 personas ${{price.price}} (por persona)</option>
+                                    <option value="4">4 personas ${{price.price}} (por persona)</option>
+                                </select>
+                            </div>
+                            <div class="form-group person-field col-md-6 mb-3" id="person-field-1">
+                                <label for="person1"><span style="color: red;">**</span>Nombre de la persona 2</label>
+                                <input type="text" id="person1" name="person1" class="form-control">
+                            </div>
+                            <div class="form-group person-field col-md-6 mb-3" id="person-field-2">
+                                <label for="person2"><span style="color: red;">**</span>Nombre de la persona 3</label>
+                                <input type="text" id="person2" name="person2" class="form-control">
+                            </div>
+                            <div class="form-group person-field col-md-6 mb-3" id="person-field-3">
+                                <label for="person3"><span style="color: red;">**</span>Nombre de la persona 4</label>
+                                <input type="text" id="person3" name="person3" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="vip">¿Habitación exclusiva?</label>
+                                <p style="font-size: 10px; font-weight: bold;">Si escoges una habitación exclusiva tendrás que pagar entonces el precio completo de la habitación que son para tu caso <span style="font-weight: bold;">$</span><span id="exclusive" style="font-weight: bold;"></span>
+                                    <br>
+                                    si no la escoges exclusiva y son menos de 4 personas se te asignará otro(s) compañero(s) de cuarto
+                                </p>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <div class="form-check">
+                                        <input class="radio_vip" type="radio" name="RadioVip" id="flexRadioYes" value="Yes" style="width: 40px; height: 20px; margin: 0px; padding: 0px;" onchange="updatePrice()">
+                                        <label class="form-check-label" for="flexRadioYes">
+                                            Sí
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="radio_sex" type="radio" name="RadioVip" id="flexRadioNo" value="No" checked style="width: 40px; height: 20px; margin: 0px; padding: 0px;" onchange="updatePrice()">
+                                        <label class="form-check-label" for="flexRadioNo" style="margin-right: 10px;">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="priceDisplay">
+                                <input type="text" name="price_normal" id="price_normal" value="{{price_normal}}" style="display: none;">
+                                <input type="text" name="prices_1" id="prices_1" value="{{prices_1}}" style="display: none;">
+                                <input type="text" name="prices_2" id="prices_2" value="{{prices_2}}" style="display: none;">
+                                <input type="text" name="prices_3" id="prices_3" value="{{prices_3}}" style="display: none;">
+                                <input type="text" name="prices_4" id="prices_4" value="{{prices_4}}" style="display: none;">
+                                Precio Total: <span style="font-weight: bold;">$</span><span id="totalPrice" style="font-weight: bold;"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="dates" class="form-label">Fechas</label>
+                                <select class="form-control" name="dates" id="dates" required>
+                                    <option value="0" selected disabled>Seleccionar...</option>
+                                    {% for date in dates %}
+                                        <option value="{{ date.id }}">{{ date.first_date }} al {{ date.second_date }}</option>
                                     {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="column" id="select_buses" style="display: none;">
+                            <div id="bus-container" style="display: none;">
+                                {% for bus_name, asientos in asientos.items %}
+                                    {% if asientos|length > 0 %}
+                                        <div class="col-md-6 mb-3 buses" data-date-id="{{ asientos.0.bus.date_of_travel.id }}">
+                                            <label class="form-label">Asientos del {{ bus_name }}</label>
+                                            <li style="list-style: none; font-size: 16px; margin-right: 100px;"><span style="color: rgb(0, 0, 0); font-weight: bold;">Conductor</span></li>
+                                            <div class="row" style="margin-left: 20px;">
+                                                {% for asiento in asientos %}
+                                                    <div class="col-1 d-flex justify-content-center align-items-center text-center" style="margin-left: 10px;">
+                                                        <div class="move" style="margin-left: 20px; padding: 10px;">
+                                                            <li style="list-style: none; padding: 0px 0px; margin: 0px;">
+                                                                {% if asiento.numero == 1 %}
+                                                                {% else %}
+                                                                    {% if asiento.numero == 2 %}
+                                                                    {% else %}
+                                                                        <p>{{ asiento.numero }} </p>
+                                                                        {% if asiento.estado == 'disponible' %}
+                                                                        <input type="checkbox" name="seat_numbers" value="{{ asiento.bus.id }}_{{ asiento.numero }}" class="bus seat_check" style="box-shadow: 0px 0px 7px green; margin-left: 0px;">
+                                                                        {% else %}
+                                                                            <span style="font-weight: bold;" class="text-danger">X</span>
+                                                                            <input type="checkbox" style="display: none;" name="seat_numbers">
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </li>
+                                                        </div>
+                                                    </div>
+                                                    {% if forloop.counter|divisibleby:2 and not forloop.last %}
+                                                        <div class="col-1"></div>  <!-- Espacio después de cada 2 checkboxes -->
+                                                    {% endif %}
+                                                    {% if forloop.counter|divisibleby:4 and not forloop.last %}
+                                                        </div><div class="row" style="margin-left: 20px;">
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                            <li style="list-style: none; font-size: 16px; margin-left: 70px; color: rgb(0, 0, 0); font-weight: bold;">Baños</li>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="column d-flex justify-content-center align-items-center text-center">
+                                <div class="col-md-6 mb-3">
+                                    <p>Si hay una
+                                        <span style="font-weight: bold;" class="text-danger">X</span>
+                                        el asiento está ocupado
+                                    </p>
+                                    <p>Si la casilla está así: 
+                                        <input type="checkbox" name="seat_numbers" class="bus" disabled readonly style="box-shadow: 0px 0px 7px green; margin: 0px 5px;">
+                                        el asiento está disponible
+                                    </p>
                                 </div>
                             </div>
-                        {% endfor %}
-                        <div class="mb-3">
-                            <label for="dates" class="form-label">Fechas</label>
-                            <select class="form-control" name="dates" id="dates" required>
-                                <option value="0">Seleccionado...</option>
-                                {% for date in dates %}
-                                    <option value="{{ date.id }}">{{ date.first_date }} al {{ date.second_date }}</option>
-                                {% endfor %}
-                            </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="voucher" class="form-label">Pago de $500</label>
-                            <input type="file" name="voucher" id="voucher" class="form-control" required accept="image/png, image/jpeg, image/webp">
-                        </div>
-                        <div class="mb-3 d-flex flex-row justify-content-center align-items-center text-center">
-                            <p>Acepto los <a href="{% url 'Terms_and_Conditions'%}" style="text-decoration: none;">términos y condiciones</a></p>
-                            <input type="checkbox" name="accept" id="accept" required class="form-check" style="margin-bottom: 15px; margin-left: 10px;">
+                        <div class="row d-flex justify-content-center align-items-center text-center">
+                            <div class="col-md-6 mb-3">
+                                <label for="voucher" class="form-label">Pago de $500</label>
+                                <input type="file" name="voucher" id="voucher" class="form-control" required accept="image/png, image/jpeg, image/webp">
+                            </div>
                         </div>
                         <button type="submit" id="submit-button" class="btn btn-black">Registrarse</button>
                     </form>
@@ -162,7 +211,7 @@
             <div class="container">
                 <h2 class="contact">Contactanos</h2>
                 <a href="mailto:BethelExcursions@gmail.com" style="margin-bottom: 10px; text-decoration: none;">BethelExcursions@gmail.com</a>
-                <p>Con Wilbeth Chinchilla <a href="tel:+18173630668">817-363-0668</a></p>
+                <p>Con Wilbert Chinchilla <a href="tel:+18173630668">817-363-0668</a></p>
                 <p>Con Verónica Chinchilla <a href="tel:+17023306776">702-330-6776</a></p>
             </div>
         </div>
@@ -171,5 +220,144 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="{% static 'js/terminosYcondiciones.js' %}"></script>
     <script src="{% static 'js/register.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateSelect = document.getElementById('dates');
+            const busContainer = document.getElementById('bus-container');
+            const buses = document.querySelectorAll('.buses');
+            const select_buses = document.getElementById('select_buses');
+
+            function updateContainerStyle() {
+                // Definimos un media query para pantallas de 768px o menos (típico para móviles)
+                const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+                if (isMobile) {
+                    busContainer.style.display = 'grid';  // Usamos grid en dispositivos móviles
+                    busContainer.style.gridTemplateColumns = '1fr'; // Hacemos que todo esté en una columna
+                } else {
+                    busContainer.style.display = 'flex';  // Usamos flex en dispositivos más grandes
+                    busContainer.style.flexDirection = 'row';  // Flex en fila para mantener los buses en una fila
+                    busContainer.style.flexWrap = 'wrap';  // Permite que los buses se envuelvan en varias líneas si es necesario
+                }
+            }
+
+            function updateBusesVisibility() {
+                const selectedDateId = dateSelect.value;
+
+                // Mostrar u ocultar buses basándose en la fecha seleccionada
+                buses.forEach(bus => {
+                    const busDateId = bus.getAttribute('data-date-id');
+
+                    if (selectedDateId === "0") {
+                        // Mostrar todos los buses si no se ha seleccionado una fecha
+                        bus.style.display = 'block';
+                        bus.style.justifyContent = 'center';
+                        bus.style.alignItems = 'center';
+                        bus.style.text = 'center';
+                        busContainer.style.display = 'flex';  // Muestra el contenedor del bus
+                        select_buses.style.display = 'block';
+                    } else {
+                        // Mostrar solo los buses que coinciden con la fecha seleccionada
+                        if (busDateId === selectedDateId) {
+                            bus.style.display = 'block';
+                            bus.style.justifyContent = 'center';
+                            bus.style.alignItems = 'center';
+                            bus.style.text = 'center';
+                            busContainer.style.display = 'flex';  // Muestra el contenedor del bus
+                            select_buses.style.display = 'block';
+                        } else {
+                            bus.style.display = 'none';
+                        }
+                    }
+                });
+
+                // Actualiza el estilo del contenedor según el tamaño de la pantalla
+                updateContainerStyle();
+            }
+
+            // Escuchamos cambios en el tamaño de la pantalla
+            window.addEventListener('resize', updateContainerStyle);
+
+            // Escuchamos cambios en la selección de fecha
+            dateSelect.addEventListener('change', updateBusesVisibility);
+
+            // Inicialmente, muestra todos los buses y ajusta el estilo
+            buses.forEach(bus => bus.style.display = 'block');
+            updateContainerStyle();
+
+            // Inicialmente, muestra todos los buses y ajusta el estilo
+            buses.forEach(bus => bus.style.display = 'block');
+            updateContainerStyle();
+        });
+
+            // Pasando los precios desde Django a JavaScript
+
+        function updatePrice() {
+            const numberOfPeople = parseInt(document.getElementById('people').value);
+            const radioVipValue = document.querySelector('input[name="RadioVip"]:checked').value;
+            const price_normal = parseFloat(document.getElementById('price_normal').value);
+            const prices_1 = parseFloat(document.getElementById('prices_1').value);
+            const prices_2 = parseFloat(document.getElementById('prices_2').value);
+            const prices_3 = parseFloat(document.getElementById('prices_3').value);
+            const prices_4 = parseFloat(document.getElementById('prices_4').value);
+
+            console.log(numberOfPeople, radioVipValue, price_normal);
+
+            let totalPrice = 0;
+
+            if (numberOfPeople == 1){
+                if (radioVipValue == "No") {
+                    totalPrice = price_normal;
+                    document.getElementById('totalPrice').textContent = totalPrice;
+                    document.getElementById('exclusive').textContent = '(Para ver el precio toca Sí)';
+                }else{
+                    totalPrice = prices_1;
+                    document.getElementById('totalPrice').textContent = totalPrice;
+                    document.getElementById('exclusive').textContent = totalPrice;
+                }
+            } 
+            else if (numberOfPeople == 2){
+                if (radioVipValue == "No") {
+                    totalPrice = price_normal * 2;
+                    document.getElementById('totalPrice').textContent = totalPrice;
+                    document.getElementById('exclusive').textContent = '(Para ver el precio toca Sí)';
+                }else{
+                    totalPrice = prices_2;
+                    document.getElementById('totalPrice').textContent = totalPrice;
+                    document.getElementById('exclusive').textContent = totalPrice;
+                }
+                totalPrice = prices_2_json;
+            } 
+            else if (numberOfPeople == 3){
+                if (radioVipValue == "No") {
+                    totalPrice = price_normal * 3;
+                    document.getElementById('totalPrice').textContent = totalPrice;
+                    document.getElementById('exclusive').textContent = '(Para ver el precio toca Sí)';
+                }else{
+                    totalPrice = prices_3;
+                    document.getElementById('totalPrice').textContent = totalPrice;
+                    document.getElementById('exclusive').textContent = totalPrice;
+                }
+            } 
+            else if (numberOfPeople == 4){
+                if (radioVipValue == "No") {
+                    totalPrice = price_normal * 4;
+                    document.getElementById('totalPrice').textContent = totalPrice;
+                    document.getElementById('exclusive').textContent = '(Para ver el precio toca Sí)';
+                }else{
+                    totalPrice = prices_4;
+                    document.getElementById('totalPrice').textContent = totalPrice;
+                    document.getElementById('exclusive').textContent = totalPrice;
+                }
+            }
+            else if (numberOfPeople == 0){
+                document.getElementById('totalPrice').textContent = 0;
+                document.getElementById('exclusive').textContent = 0;
+            }
+        }
+
+        // Ejecuta la función al cargar la página para mostrar el precio inicial
+        updatePrice();
+    </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ValidationError
+from pageLogin.models import *
 
 # Create your models here.
 class Prices(models.Model):
@@ -14,33 +15,19 @@ class Prices(models.Model):
         
     def __str__(self):
         return str(self.total)
-    
+
 class Room(models.Model):
-    number = models.CharField(max_length=10, unique=True)  # Número o identificador único del cuarto
-    max_capacity = models.PositiveIntegerField(default=4)  # Capacidad máxima de 4 personas
-    min_capacity = models.PositiveIntegerField(default=1)  # Capacidad mínima de 1 persona
-    remaining_spaces = models.IntegerField(default=4)  # Espacios restantes del cuarto
-
-    class Meta:
-        verbose_name = 'Room'
-        verbose_name_plural = 'Rooms'
-
-    def __str__(self):
-        return f"Room {self.number} (Capacity: {self.min_capacity}-{self.max_capacity})"
+    number = models.CharField(max_length=10, null=True, blank=True)
+    max_capacity = models.PositiveIntegerField(default=4)
+    min_capacity = models.PositiveIntegerField(default=1)
+    remaining_spaces = models.IntegerField(default=4)
+    users = models.ManyToManyField(User, blank=True)
+    companions = models.ManyToManyField(Companions, blank=True)
+    rooms_bus = models.ForeignKey(Rooms_Bus, on_delete=models.CASCADE)
     
 
 class Reservation(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)  # Relación con el cuarto
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Relación con el usuario que hace la reserva
-    start_date = models.DateField()  # Fecha de inicio de la reserva
-    end_date = models.DateField()  # Fecha de fin de la reserva
-    number_of_people = models.PositiveIntegerField()  # Número de personas para la reserva
-    exclusive = models.BooleanField(default=False)  # Si el usuario quiere exclusividad del cuarto
-
-    def clean(self):
-        # Validar que el número de personas esté dentro de la capacidad del cuarto
-        if not (self.room.min_capacity <= self.number_of_people <= self.room.max_capacity):
-            raise ValidationError(f"El número de personas debe estar entre {self.room.min_capacity} y {self.room.max_capacity}.")
-
-    def __str__(self):
-        return f"Reservation for Room {self.room.number} by {self.user.email} from {self.start_date} to {self.end_date}"
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Relación con el usuario que hace la reserva
+    companion = models.ForeignKey(Companions, on_delete=models.SET_NULL, null=True, blank=True)
+    companion_name = models.CharField(max_length=100, null=True, blank=True)

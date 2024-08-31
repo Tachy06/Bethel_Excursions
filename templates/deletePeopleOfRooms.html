@@ -1,0 +1,59 @@
+{% extends 'PanelAdmin.html' %}
+{% load static %}
+{% load pwa %}
+{% block title %} <title>View rooms</title> {% endblock %}
+{% block content %}
+<div class="container-fluid d-flex flex-column" style="height: 100dvh;">
+    <div class="d-flex justify-content-start align-items-start">
+        <section class="back">
+            <div class="container">
+                <a href="{% url 'ViewRooms' bus_id %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+    </div>
+    <div class="d-flex justify-content-center align-items-center text-center flex-column">
+        <h1>Eliminar personas de la habitación</h1>
+        <div class="card mt-3" style="min-width: 25rem;">
+            <div class="card-body">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    
+                    {% if room.users.exists %}
+                        {% for user in room.users.all %}
+                        <div class="mb-3 d-flex">
+                            <label class="form-label">{{ user.first_name }} {{ user.last_name }}</label>
+                            <button type="submit" name="user_id" value="{{ user.id }}" class="btn btn-outline-danger mx-2">Eliminar de la habitación</button>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="mb-3 d-flex">
+                            <label class="form-label" style="font-weight: bold;">No hay usuarios asignados a esta habitación.</label>
+                        </div>
+                    {% endif %}
+                    
+                    {% if room.companions.exists %}
+                        {% for companion in room.companions.all %}
+                        <div class="mb-3 d-flex">
+                            <label class="form-label">{{ companion.name }} ligad@ a {{ companion.user.first_name }} {{ companion.user.last_name }}</label>
+                            <button type="submit" name="companion_id" value="{{ companion.id }}" class="btn btn-outline-danger mx-2">Eliminar de la habitación</button>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="mb-3 d-flex">
+                            <label class="form-label" style="font-weight: bold;">No hay acompañantes asignados a esta habitación.</label>
+                        </div>
+                    {% endif %}
+                    <div class="mb-3 d-flex justify-content-center align-items-center text-center">
+                        <button type="submit" name="vaciar" value="true" class="btn btn-outline-warning">Vaciar habitación</button>
+                    </div>
+                    <p style="font-size: 11px;">Nota: <span style="font-weight: bold;">Tocar este botón hará que se borren todos los usuarios y acompañantes de esta habitación para que quede totalmente vacía.</span></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

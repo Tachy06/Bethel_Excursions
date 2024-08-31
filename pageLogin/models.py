@@ -3,8 +3,21 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 # Create your models here.
+
+class DatesOfTravel(models.Model):
+    first_date = models.DateField(null=False)
+    second_date = models.DateField(null=False)
+
+    class Meta:
+        verbose_name = 'DateOfTravel'
+        verbose_name_plural = 'DatesOfTravels'
+
+    def __str__(self):
+        return f"{self.first_date} - {self.second_date}"
+    
 class Bus(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
+    date_of_travel = models.ForeignKey(DatesOfTravel, on_delete=models.CASCADE, null=False)
     
     class Meta:
         verbose_name = 'Bus'
@@ -12,6 +25,21 @@ class Bus(models.Model):
     
     def __str__(self):
         return self.nombre
+    
+class Rooms_Bus(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
+
+class Companions(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='companions')
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'Companion'
+        verbose_name_plural = 'Companions'
+
+    def __str__(self):
+        return self.user.username
 
 class Asiento(models.Model):
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
@@ -22,6 +50,8 @@ class Asiento(models.Model):
         default='disponible'
     )
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    companion = models.ForeignKey(Companions, on_delete=models.SET_NULL, null=True, blank=True)
+    companion_name = models.CharField(max_length=100, null=True, blank=True)
     
     class Meta:
         verbose_name = 'Asiento'
@@ -42,48 +72,20 @@ class Asiento(models.Model):
             except UserMoreInformation.DoesNotExist:
                 max_reservations = 1  # Default to 1 if no user information is found
             
-            # Ensure the user does not exceed the number of reservations allowed by their people count
-            if reserved_seats >= max_reservations:
-                raise ValidationError({
-                    'user': _(f"El usuario {self.user.username} ya ha reservado el máximo de {max_reservations} asientos permitidos.")
-                })
         super().clean()
 
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
-
-class DatesOfTravel(models.Model):
-    first_date = models.DateField(null=False)
-    second_date = models.DateField(null=False)
-
-    class Meta:
-        verbose_name = 'DateOfTravel'
-        verbose_name_plural = 'DatesOfTravels'
-
-    def __str__(self):
-        return f"{self.first_date} - {self.second_date}"
     
 class UserMoreInformation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     people = models.IntegerField(null=False)
-    rooms = models.CharField(null=False, max_length=10)
     price = models.FloatField(null=False)
     date_of_travel = models.ForeignKey(DatesOfTravel, on_delete=models.SET_NULL, null=True)
+    bus = models.ForeignKey(Bus, on_delete=models.SET_NULL, null=True)
+    vip = models.BooleanField(default=False)
     
     class Meta:
         verbose_name = 'UserMoreInformation'
         verbose_name_plural = 'UserMoreInformations'
-
-class Companions(models.Model):
-    person1 = models.CharField(max_length=100, null=True, blank=True)
-    person2 = models.CharField(max_length=100, null=True, blank=True)
-    person3 = models.CharField(max_length=100, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Companion'
-        verbose_name_plural = 'Companions'
-
-    def __str__(self):
-        return self.user.username

@@ -5,7 +5,7 @@
 {% block content %}
     <section class="back">
         <div class="container">
-            <a href="/admin666/">
+            <a href="/admin/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" style="margin-top: 15px; margin-left: 10px; color: black;">
                     <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
                 </svg>
@@ -61,7 +61,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mt-2">
+                        <div class="card mt-2" style="min-width: 30rem;">
                             <div class="card-header">
                                 <h4>Modify User</h4>
                             </div>
@@ -87,44 +87,42 @@
                                     <div class="mb-3">
                                         <label for="people" class="form-label">Personas por habitación</label>
                                         <select name="people" id="people" class="form-control" required>
-                                            <option value="0">Seleccionar...</option>
-                                            <option value="1">1 person</option>
-                                            <option value="2">2 people</option>
-                                            <option value="3">3 people</option>
-                                            <option value="4">4 people</option>
+                                            {% if moreInformation.people == 1 %}
+                                                <option value="{{moreInformation.people}}">{{moreInformation.people}} persona</option>
+                                                <option value="2">2 personas</option>
+                                                <option value="3">3 personas</option>
+                                                <option value="4">4 personas</option>
+                                            {% elif moreInformation.people == 2 %}
+                                                <option value="{{moreInformation.people}}">{{moreInformation.people}} personas</option>
+                                                <option value="1">1 persona</option>
+                                                <option value="3">3 personas</option>
+                                                <option value="4">4 personas</option>
+                                            {% elif moreInformation.people == 3 %}
+                                                <option value="{{moreInformation.people}}">{{moreInformation.people}} personas</option>
+                                                <option value="1">1 persona</option>
+                                                <option value="2">2 personas</option>
+                                                <option value="4">4 personas</option>
+                                            {% elif moreInformation.people == 4 %}
+                                                <option value="{{moreInformation.people}}">{{moreInformation.people}} personas</option>
+                                                <option value="1">1 persona</option>
+                                                <option value="2">2 personas</option>
+                                                <option value="3">3 personas</option>
+                                            {% endif %}
                                         </select>
-                                    </div>
                                     <div class="form-group person-field" id="person-field-1">
-                                        <label for="person1"><span style="color: red;">**</span>Nombre de la persona 1</label>
-                                        <input type="text" id="person1" name="person1" class="form-control" value="{{ companions.person1 }}">
+                                        <label for="person1"><span style="color: red;">**</span>Nombre de la persona 2</label>
+                                        <input type="text" id="person1" name="person1" class="form-control" value="{% if companions %}{{ companions.person1 }}{% else %} {% endif %}">
                                     </div>
                                     <div class="form-group person-field" id="person-field-2">
-                                        <label for="person2"><span style="color: red;">**</span>Nombre de la persona 2</label>
-                                        <input type="text" id="person2" name="person2" class="form-control" value="{{ companions.person2 }}">
+                                        <label for="person2"><span style="color: red;">**</span>Nombre de la persona 3</label>
+                                        <input type="text" id="person2" name="person2" class="form-control" value="{% if companions %}{{ companions.person2 }}{% else %} {% endif %}">
                                     </div>
                                     <div class="form-group person-field" id="person-field-3">
-                                        <label for="person3"><span style="color: red;">**</span>Nombre de la persona 3</label>
-                                        <input type="text" id="person3" name="person3" class="form-control" value="{{ companions.person3 }}">
+                                        <label for="person3"><span style="color: red;">**</span>Nombre de la persona 4</label>
+                                        <input type="text" id="person3" name="person3" class="form-control" value="{% if companions %}{{ companions.person3 }}{% else %} {% endif %}">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="rooms" class="form-label">Habitaciones a reservar</label>
-                                        <select name="rooms" id="rooms" class="form-control" required>
-                                            <option value="0">Seleccionar...</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="number_room" class="form-label">Número de habitación a reservar</label>
-                                        <select name="number_room" id="number_room" class="form-control" required>
-                                            <option value="0">Seleccionar...</option>
-                                            {% for room in rooms %}
-                                                <option value="{{ room.id }}">{{ room.number }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="vip">¿Habitación exclusiva?</label>
+                                        <label>¿Habitación exclusiva?</label>
                                         <div class="d-flex flex-row justify-content-center">
                                                 {% if reservation.exclusive %}
                                                     <div class="form-check">
@@ -155,27 +153,18 @@
                                                 {% endif %}
                                         </div>
                                     </div>
-                                    {% for bus_name, asientos in asientos.items %}
-                                        <div class="mb-3">
-                                            <label class="form-label">Asientos del {{ bus_name }}</label>
-                                            <div class="asientos">
-                                                {% for asiento in asientos %}
-                                                    {% if asiento.estado == 'disponible' %}
-                                                        <li style="list-style: none; padding: 0px 5px;">{{ asiento.numero }} <input type="checkbox" name="seat_numbers" value="{{ asiento.bus.id }}_{{ asiento.numero }}"></li>
-                                                    {% else %}
-                                                        <li style="list-style: none; padding: 0px 5px;">{{ asiento.numero }} <span style="font-weight: bold;">Busy</span> <input type="checkbox" style="display: none;" name="seat_numbers"></li>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    {% endfor %}
                                     <div class="mb-3">
                                         <label for="dates" class="form-label">Fechas</label>
                                         <select class="form-control" name="dates" id="dates" required>
-                                            <option value="0">Seleccionar...</option>
                                             {% for date in dates %}
-                                                <option value="{{ date.id }}">{{ date.first_date }} al {{ date.second_date }}</option>
-                                            {% endfor %}
+                                                <option value="{{ date.id }}"
+                                                    {% if moreInformation and moreInformation.date_of_travel and date.id == moreInformation.date_of_travel.id %}
+                                                        selected
+                                                    {% endif %}
+                                                    >
+                                                    {{ date.first_date }} al {{ date.second_date }}
+                                                </option>
+                                            {% endfor %}                                        
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-warning w-100">Modificar</button>
@@ -187,100 +176,5 @@
             </div>
         </section>
     {% endif %}
-    <script>
-        function dividirInputs() {
-            var divs = document.querySelectorAll('.asientos');
-            
-            divs.forEach(function(div) {
-                var inputs = div.querySelectorAll('input[type="checkbox"]');
-                var lis = div.querySelectorAll('li');
-                if (inputs.length > 2) {
-                    var nuevosAsientos = document.createElement('div');
-                    nuevosAsientos.classList.add('asiento');
-                    div.parentNode.insertBefore(nuevosAsientos, div.nextSibling);
-                    
-                    var contador = 0;
-                    var nuevoContenedor = null;
-                    
-                    inputs.forEach(function(input, index) {
-                        if (contador === 0) {
-                            nuevoContenedor = document.createElement('div');
-                            nuevoContenedor.classList.add('asientos');
-                            nuevosAsientos.appendChild(nuevoContenedor);
-                        }
-                        nuevoContenedor.appendChild(lis[index]);
-                        nuevoContenedor.appendChild(input);
-                        
-                        contador++;
-                        
-                        if (contador === 2 || index === inputs.length - 1) {
-                            contador = 0;
-                        }
-                    });
-                }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', dividirInputs);
-        document.addEventListener('DOMContentLoaded', function() {
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            var maxAsientos = 4;
-
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-                    if (selectedCheckboxes.length > maxAsientos) {
-                        this.checked = false;
-                        alert('Solo puedes seleccionar un máximo de ' + maxAsientos + ' asientos.');
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        document.getElementById('people').addEventListener('change', function() {
-            updateFields(parseInt(this.value));
-        });
-
-        function updateFields(numPeople) {
-            const fields = [
-                document.getElementById('person-field-1'),
-                document.getElementById('person-field-2'),
-                document.getElementById('person-field-3')
-            ];
-            const inputs = [
-                document.getElementById('person1'),
-                document.getElementById('person2'),
-                document.getElementById('person3')
-            ];
-
-            // Reset all fields to not required and hide them initially
-            fields.forEach(field => {
-                field.style.display = 'none';
-            });
-            inputs.forEach(input => {
-                input.required = false;
-            });
-
-            // Show and set required based on the number of people
-            if (numPeople > 1) {
-                fields[0].style.display = 'block';
-                inputs[0].required = true;
-            }
-            if (numPeople > 2) {
-                fields[1].style.display = 'block';
-                inputs[1].required = true;
-            }
-            if (numPeople > 3) {
-                fields[2].style.display = 'block';
-                inputs[2].required = true;
-            }
-        }
-
-        // Set initial state based on the value of the dropdown
-        document.addEventListener('DOMContentLoaded', function() {
-            const initialNumPeople = parseInt(document.getElementById('people').value);
-            updateFields(initialNumPeople);
-        });
-    </script>
+    <script src="{% static 'js/modify.js' %}"></script>
 {% endblock %}
