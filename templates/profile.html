@@ -19,14 +19,21 @@
                 <p class="card-text"><strong>Personas:</strong> <span class="span-black">{{ moreInformation.people }}</span></p>
                 <p class="card-text"><strong>Asiento:</strong> 
                     {% for asiento in asientos %}
-                        {% if asiento.companion %}
+                        {% if not asiento.companion %}
                             <span class="span-black">{{ asiento.bus.nombre }} - Asiento {{ asiento.numero }}</span><br>
                         {% endif %}
                     {% endfor %}
                 </p>
                 {% if companions %}
                     {% for companion in companions %}
-                        <p class="card-text"><strong>Acompañante:</strong> <span class="span-black">{{ companion.name }}</span></p>
+                        <p class="card-text mt-3"><strong>Acompañante:</strong> <span class="span-black">{{ companion.name }}</span></p>
+                        {% if rooms_reserved_companion %}
+                            {% for companion_id, room_companion in rooms_reserved_companion.items %}
+                                {% if companion.id == companion_id %}
+                                    <p class="card-text"><strong>Habitación del acompañante:</strong> <span class="span-black">#{{ room_companion.number }}</span></p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         <p class="card-text"><strong>Asiento del acompañante:</strong> 
                             {% for asiento in asientos %}
                                 {% if asiento.companion == companion %}
@@ -36,7 +43,7 @@
                         </p>
                     {% endfor %}
                 {% endif %}
-                <p class="card-text"><strong>Habitación exclusiva:</strong> <span class="span-black">{{ moreInformation.vip|yesno:"Sí,No" }}</span></p>
+                <p class="card-text mt-3"><strong>Habitación exclusiva:</strong> <span class="span-black">{{ moreInformation.vip|yesno:"Sí,No" }}</span></p>
                 <p class="card-text"><strong>Fecha del viaje:</strong> <span class="span-black">{{ moreInformation.date_of_travel.first_date }} al {{ moreInformation.date_of_travel.second_date }}</span></p>
                 {% if paid %}
                 <p class="card-text"><strong>Monto pagado:</strong> <span class="span-black">${{ paid.totalPaid }}</span></p>

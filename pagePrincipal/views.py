@@ -25,13 +25,23 @@ class profileView(LoginRequiredMixin, View):
             total_paid = float(moreInformation.price) - float(paid.totalPaid)
             reservations = Reservation.objects.filter(user=user)
             companions = Companions.objects.filter(user=user)
-            return render(request, 'profile.html', {'user': user, 'moreInformation': moreInformation, 'asientos': asientos, 'paid': paid, 'reservations': reservations, 'total_paid': total_paid, 'companions': companions})
+            rooms_reserved_companion = {}
+            for companion in companions:
+                try:
+                    room_companion = Room.objects.filter(companions=companion).get
+                    rooms_reserved_companion[companion.id] = room_companion
+                except Room.DoesNotExist:
+                    rooms_reserved_companion[companion.id] = None
+            return render(request, 'profile.html', {'user': user, 'moreInformation': moreInformation, 'asientos': asientos, 'paid': paid, 'reservations': reservations, 'total_paid': total_paid, 'companions': companions, 'rooms_reserved_companion': rooms_reserved_companion})
+        
         except UserMoreInformation.DoesNotExist:
             paid = totalPaidTable.objects.filter(user=user).last()
             return render(request, 'profile.html', {'user': user, 'paid': paid})
+        
         except Reservation.DoesNotExist:
             paid = totalPaidTable.objects.filter(user=user).last()
             return render(request, 'profile.html', {'user': user, 'paid': paid})
+        
         except Companions.DoesNotExist:
             moreInformation = UserMoreInformation.objects.get(user=user)
             asientos = Asiento.objects.filter(user=user)
