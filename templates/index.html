@@ -41,7 +41,7 @@
     <section class="view_information">
         <div class="d-flex flex-column justify-content-center align-items-center text-center">
             <h1 class="text-center mt-2">Mira antes de reservar</h1>
-            <a href="/gallery/" class="btn btn-black" style="color: white; text-decoration: none;">Conoce más del viaje</a>
+            <a href="/gallery/" class="btn btn-black" style="text-decoration: none;">Conoce más del viaje</a>
         </div>
     </section>
     {% if user.is_authenticated %}
@@ -49,14 +49,14 @@
             <div class="container">
                 <h1 style="color: white;">Subir el comprobante</h1>
                 <p style="color: white; font-size: 18px; text-shadow: 0px 0px 3px white;">Si quieres subir un comprobante, por favor, haz click en el botón <span style="color: rgb(0, 89, 255); font-weight: bold; text-shadow: 0px 0px 7px black;">"Subir"</span></p>
-                <a href="upload/" class="btn btn-black" style="color: white; text-decoration: none;">Subir</a>
+                <a href="upload/" class="btn btn-black" style="text-decoration: none;">Subir</a>
             </div>
         </main>
         <section class="view-payments">
             <div class="container">
                 <h1 style="color: white;">Ver pagos</h1>
                 <p style="color: white; font-size: 18px; text-shadow: 0px 0px 3px white;">Si quieres ver los pagos, por favor, haz click en el botón <span style="color: rgb(0, 89, 255); font-weight: bold; text-shadow: 0px 0px 10px rgb(0, 0, 0);">"Ver mis pagos"</span></p>
-                <a href="{% url 'Payments' %}" class="btn btn-black" style="color: white; text-decoration: none;">Ver mis pagos</a>
+                <a href="{% url 'Payments' %}" class="btn btn-black" style="text-decoration: none;">Ver mis pagos</a>
             </div>
         </section>
     {% else %}
@@ -64,14 +64,14 @@
             <div class="container">
                 <h1 style="color: white;">Subir el comprobante</h1>
                 <p style="color: white; font-size: 18px; text-shadow: 0px 0px 3px white;">Si quieres subir un comprobante, por favor, haz click en el botón <span style="color: rgb(0, 89, 255); font-weight: bold; text-shadow: 0px 0px 7px black;">"Subir"</span></p>
-                <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-black" style="color: white;">Subir</button>
+                <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-black">Subir</button>
             </div>
         </main>
         <section class="view-payments">
             <div class="container">
                 <h1 style="color: white;">Ver pagos</h1>
                 <p style="color: white; font-size: 18px; text-shadow: 0px 0px 3px white;">Si quieres ver los pagos, por favor, haz click en el botón <span style="color: rgb(0, 89, 255); font-weight: bold; text-shadow: 0px 0px 10px rgb(0, 0, 0);">"Ver mis pagos"</span></p>
-                <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-black" style="color: white;">Ver mis pagos</button>
+                <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-black">Ver mis pagos</button>
             </div>
         </section>
     {% endif %}
